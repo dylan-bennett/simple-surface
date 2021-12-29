@@ -7,7 +7,7 @@ surface = SimpleSurface(600, 800)
 surface.set_background()
 
 # Write text with default parameters
-surface.text.write(
+surface.write(
     (
         "This is one text block written with the default parameters.\n\n"
         "Line breaks are supported and\n"

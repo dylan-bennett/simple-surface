@@ -9,12 +9,12 @@ surface = SimpleSurface(600, 800)
 surface.set_background()
 
 # Draw a black triangle
-surface.draw.polygon([(250, 60), (200, 350), (50, 200)])
+surface.polygon([(250, 60), (200, 350), (50, 200)])
 
 # Draw an empty blue quadrilateral that touches all four sides of the
 # upper-right quadrant
 quadrilateral = [("center", 50), (500, "center"), ("right", 200), (400, "top")]
-surface.draw.polygon(points=quadrilateral, fill=False, color=(0, 0, 255))
+surface.polygon(points=quadrilateral, fill=False, color=(0, 0, 255))
 
 # Draw a green pentagon with a red outline that is 10 pixels thick
 radius = 100
@@ -26,7 +26,7 @@ for i in range(5):
     y = origin[1] + radius * math.sin(math.radians(-90 + i * angle))
     pentagon.append((x, y))
 
-surface.draw.polygon(points=pentagon, color=(0, 255, 0), outline=10, outline_color=(255, 0, 0))
+surface.polygon(points=pentagon, color=(0, 255, 0), outline=10, outline_color=(255, 0, 0))
 
 # Draw a filled orange 5-pointed star with a black outline
 pentagram = []
@@ -36,7 +36,7 @@ for i in range(0, 5 * 2, 2):
     y = origin[1] + radius * math.sin(math.radians(-90 + (i % 5) * angle))
     pentagram.append((x, y))
 
-surface.draw.polygon(points=pentagram, color=(255, 165, 0), outline_color=(0, 0, 0))
+surface.polygon(points=pentagram, color=(255, 165, 0), outline_color=(0, 0, 0))
 
 # Draw gridlines for reference (outline + vertical/horizontal center lines)
 surface.gridlines()

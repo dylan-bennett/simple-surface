@@ -16,7 +16,7 @@ def random_rectangles(isp, num_rectangles):
         x = random.randint(0, isp.get_width() - width)
         y = random.randint(0, isp.get_height() - height)
         color = random.choices(range(256), k=4)
-        isp.draw.rectangle(x, y, width, height, color=color)
+        isp.rectangle(x, y, width, height, color=color)
 
 
 # Create an SimpleSurface object, sized 600x800 pixels

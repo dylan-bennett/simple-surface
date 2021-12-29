@@ -7,17 +7,17 @@ surface = SimpleSurface(600, 800)
 surface.set_background((255, 255, 0))
 
 # Draw a black ellipse at (50, 50) and measuring 100x200 pixels
-surface.draw.ellipse(50, 50, 100, 200)
+surface.ellipse(50, 50, 100, 200)
 
 # Draw a blue ellipse at ("left", 650) and measuring 200x100 pixels
-surface.draw.ellipse("left", 650, width=200, height=100, color=(0, 0, 255))
+surface.ellipse("left", 650, width=200, height=100, color=(0, 0, 255))
 
 # Draw an empty ellipse at (200, "top") measuring 200x250 pixels
-surface.draw.ellipse(200, "top", 200, 250, fill=False, outline=20)
+surface.ellipse(200, "top", 200, 250, fill=False, outline=20)
 
 # Draw a pink ellipse at ("right", "bottom") that fills in the entire
 # bottom-right quadrant with a purple outline that is 20 pixels thick
-surface.draw.ellipse(
+surface.ellipse(
     x="right",
     y="bottom",
     width=surface.get_width() / 2,
@@ -29,7 +29,7 @@ surface.draw.ellipse(
 
 # Draw a transparent lime-green ellipse at ("center", "center") measuring
 # 250x250 pixels and with a red outline
-surface.draw.ellipse("center", "center", 250, 250, color=(50, 205, 50, 128), outline_color=(255, 0, 0))
+surface.ellipse("center", "center", 250, 250, color=(50, 205, 50, 128), outline_color=(255, 0, 0))
 
 # Draw gridlines for reference (outline + vertical/horizontal center lines)
 surface.gridlines()
