@@ -99,44 +99,6 @@ class TextSurface:
         self.text_height = None
 
     def write(self, text, x, y, font, **kwargs):
-        """
-        Write text at given coordinates, with given attributes. Return
-        the resulting width and height of the bounding box that includes
-        the text and padding.
-
-        Keyword arguments:
-                text (str) -- the text to be written.
-                x (float) -- the x-coordinate of the text.
-                y (float) -- the y-coordinate of the text.
-                font (str) -- the filename of the font.
-
-        Optional arguments:
-                alignment (str) -- the alignment of the text. Can be "left",
-                        "center", "right", or "justified" (default "left").
-                break_up_lines (bool) -- whether to break text up into multiple
-                        lines if it's too long (default True).
-                color (3- or 4-tuple) -- the color of the text as an RGB(A)
-                        tuple (default (0, 0, 0) (black)).
-                font_size (int/str) -- the font size, in pts. If set to "fill",
-                        it will be the largest font size it can be (default "fill").
-                justify_last_line (bool) -- whether to justify the last line
-                        of text , if the text is justified. If set to False, the
-                        last line will be left-aligned (default False).
-                line_spacing (float) -- the line spacing multiplier (default 1.0).
-                max_height (int) -- the maximum vertical space the text and
-                        padding will take up. If set to "fill", it will be the
-                        largest height needed/allowed (default "fill").
-                max_width (int) -- the maximum horizontal space the text and
-                        padding will take up. If set to "fill", it will be the
-                        largest width needed/allowed (default "fill").
-                min_font_size (int) -- the minimum font size, in pts (default 7).
-                outline (int) -- the text outline width, in pixels (default 0).
-                outline_color (3- or 4-tuple) -- the color of the text outline
-                        as an RGB(A) tuple (default (0, 0, 0) (black)).
-                padding (dict) -- the padding around the text, in pixels.
-                        Any or all of the padding keys can be sent in.
-                        (default {"top":0, "right":0, "bottom":0, "left":0}).
-        """
         # Make sure the (x, y)-coordinates are sent in properly
         if isinstance(x, str):
             assert x in ["left", "center", "right"], (

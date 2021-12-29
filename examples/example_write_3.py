@@ -17,7 +17,7 @@ text = (
     "within, but you don't know what size to make the font. This default "
     "makes the text look as nice as possible."
 )
-bb_width, bb_height = surface.text.write(
+bb_width, bb_height = surface.write(
     text,
     x,
     y,
@@ -37,7 +37,7 @@ text = (
     "This is good for things like titles or headlines that you want as "
     "big as possible while still remaining on one line."
 )
-bb_width, bb_height = surface.text.write(
+bb_width, bb_height = surface.write(
     text,
     "center",
     y,
@@ -57,7 +57,7 @@ text = (
     "automatically put in.\n\nThe result is that a line of text goes off "
     "the page if we keep typing more and more and more and more."
 )
-bb_width, bb_height = surface.text.write(
+bb_width, bb_height = surface.write(
     text,
     0,
     y,
@@ -76,7 +76,7 @@ surface.draw.line("left", y_line, "right", y_line)
 
 # Write white text with a black outline
 y += bb_height + text_buffer
-bb_width, bb_height = surface.text.write(
+bb_width, bb_height = surface.write(
     "This is an example of white text with a black outline.",
     "center",
     y,
@@ -91,7 +91,7 @@ bb_width, bb_height = surface.text.write(
 
 # Write green text with a red outline
 y += bb_height + text_buffer
-surface.text.write(
+surface.write(
     "And this is an example of green text with a thick red outline.",
     "center",
     y,

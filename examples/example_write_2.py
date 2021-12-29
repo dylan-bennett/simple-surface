@@ -15,7 +15,7 @@ text = (
     "isn't specified so this text will fill up as much space as it's "
     "allowed."
 )
-bb_width, bb_height = surface.text.write(
+bb_width, bb_height = surface.write(
     text,
     x,
     y,
@@ -32,7 +32,7 @@ text = (
     "This text is right-aligned. Its font size is set to 25 pts so it "
     "will not automatically adjust, even if the text goes off the page."
 )
-bb_width, bb_height = surface.text.write(
+bb_width, bb_height = surface.write(
     text,
     x,
     y,
@@ -58,7 +58,7 @@ text = (
     "box are returned and can be used to draw bounding boxes or "
     "dynamically stack text blocks, like in the example to the right."
 )
-bb_width, bb_height = surface.text.write(
+bb_width, bb_height = surface.write(
     text,
     x,
     y,
@@ -74,7 +74,7 @@ surface.draw.rectangle(x, y, bb_width, bb_height, fill=False)
 # Write two justified blocks of text: one to show the last line being
 # justified, and one to show it not being justified
 x, y = surface.get_width() / 2, surface.get_height() / 2
-bb_width, bb_height = surface.text.write(
+bb_width, bb_height = surface.write(
     (
         "This text is justified. Notice how it stretches to each side of its "
         "container within the padding. For this example, the last line will be "
@@ -93,7 +93,7 @@ surface.draw.rectangle(x, y, bb_width, bb_height, fill=False)
 
 x = surface.get_width() / 2
 y += bb_height + 10
-bb_width, bb_height = surface.text.write(
+bb_width, bb_height = surface.write(
     (
         "This text is justified. Notice how it stretches to each side of its "
         "container within the padding. For this example, the last line will be "

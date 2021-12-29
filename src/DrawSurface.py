@@ -82,22 +82,6 @@ class DrawSurface:
 
     @polygon_wrapper
     def dot(self, x, y, radius=1, **kwargs):
-        """
-        Draw a dot of a given radius, centered at (x, y).
-
-        Keyword arguments:
-                x (int/str) -- the x-coordinate.
-                y (int/str) -- the y-coordinate.
-                radius (int) -- the radius of the dot (default 1).
-                color (3- or 4-tuple) -- the RGB(A) color of the dot
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the dot with color
-                        (default True).
-                outline (int) -- the thickness of the dot's outline,
-                        in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
-                        dot's outline (default 'color').
-        """
         # Calculate the width and height of the inner section of the dot
         width = radius * 2 - self.outline
         height = radius * 2 - self.outline
@@ -116,25 +100,6 @@ class DrawSurface:
 
     @polygon_wrapper
     def ellipse(self, x, y, width, height, **kwargs):
-        """
-        Draw an ellipse of a given width and height. The (x, y)-coordinates
-        correspond to the top-left corner of the bounding box that would
-        contain the ellipse.
-
-        Keyword arguments:
-                x (int/str) -- the x-coordinate of the ellipse.
-                y (int/str) -- the y-coordinate of the ellipse.
-                width (int) -- the width of the ellipse.
-                height (int) -- the height of the ellipse.
-                color (3- or 4-tuple) -- the RGB(A) color of the ellipse
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the ellipse with color
-                        (default True).
-                outline (int) -- the thickness of the ellipse's outline,
-                        in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
-                        ellipse's outline (default 'color').
-        """
         # Determine the x and y coordinates based on other attributes
         x, y, width, height = self._adjust_params(x, y, width, height)
 
@@ -147,20 +112,6 @@ class DrawSurface:
         self.context.restore()
 
     def line(self, x1, y1, x2, y2, **kwargs):
-        """
-        Draw a line connecting two points at given sets of coordinates.
-
-        Keyword arguments:
-                x1 (int/str) -- the x-coordinate of the first point.
-                y1 (int/str) -- the y-coordinate of the first point.
-                x2 (int/str) -- the x-coordinate of the second point.
-                y2 (int/str) -- the y-coordinate of the second point.
-                color (3- or 4-tuple) -- the RGB(A) color of the polygon
-                        (default (0, 0, 0) (black)).
-                line_cap (cairo.LINE_CAP) -- the cap at the end of the line
-                        (default cairo.LINE_CAP_SQUARE).
-                line_width (int) -- the thickness of the line, in pixels.
-        """
         # Save the Context so we can restore it after the line is drawn
         self.context.save()
 
@@ -187,23 +138,6 @@ class DrawSurface:
 
     @polygon_wrapper
     def polygon(self, points, **kwargs):
-        """
-        Draw a polygon that connects a series of (x, y)-coordinates.
-
-        Keyword arguments:
-                points (list) -- a list of xy-coordinates as tuples,
-                        indicating the vertices of the polygon.
-                color (3- or 4-tuple) -- the RGB(A) color of the polygon
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the polygon with color
-                        (default True).
-                line_join(cairo.LINE_JOIN) -- the rendering between two
-                        joining lines (default cairo.LINE_JOIN_MITER).
-                outline (int) -- the thickness of the polygon's outline,
-                        in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
-                        polygon's outline (default 'color').
-        """
         # Parse each set of points
         for i, (x, y) in enumerate(points):
             points[i] = (self._parse_x(x, 0), self._parse_y(y, 0))
@@ -216,24 +150,6 @@ class DrawSurface:
 
     @polygon_wrapper
     def rectangle(self, x, y, width, height, **kwargs):
-        """
-        Draw a rectangle. The (x, y)-coordinates correspond to the
-        top-left corner of the rectangle.
-
-        Keyword arguments:
-                x (int/str) -- the x-coordinate.
-                y (int/str) -- the y-coordinate.
-                width (int) -- the width of the rectangle.
-                height (int) -- the height of the rectangle.
-                color (3- or 4-tuple) -- the RGB(A) color of the rectangle
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the rectangle with color
-                        (default True).
-                outline (int) -- the thickness of the rectangle's outline,
-                        in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
-                        rectangle's outline (default 'color').
-        """
         # Parse and adjust the parameters sent in
         x, y, width, height = self._adjust_params(x, y, width, height)
 
@@ -242,26 +158,6 @@ class DrawSurface:
 
     @polygon_wrapper
     def rounded_rectangle(self, x, y, width, height, radius, **kwargs):
-        """
-        Draw a rectangle with rounded corners. The (x, y)-coordinates
-        correspond to the top-left corner of the bounding box that would
-        contain the rounded rectangle.
-
-        Keyword arguments:
-                x (int/str) -- the x-coordinate.
-                y (int/str) -- the y-coordinate.
-                width (int) -- the width of the rounded rectangle.
-                height (int) -- the height of the rounded rectangle.
-                radius (int) -- the radius of the rectangle's corners.
-                color (3- or 4-tuple) -- the RGB(A) color of the rounded rectangle
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the rounded rectangle with
-                        color (default True).
-                outline (int) -- the thickness of the rounded rectangle's outline,
-                        in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
-                        rounded rectangle's outline (default 'color').
-        """
         # Parse and adjust the parameters sent in
         x, y, width, height = self._adjust_params(x, y, width, height)
 
