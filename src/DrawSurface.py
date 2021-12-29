@@ -30,7 +30,7 @@ def polygon_wrapper(func):
         self.context.save()
 
         # Initialize the polygon's attributes
-        self.init_attributes(**kwargs)
+        self._init_attributes(**kwargs)
 
         # Call the function
         result = func(self, *args, **kwargs)
@@ -116,7 +116,7 @@ class DrawSurface:
         self.context.save()
 
         # Initialize the shape's attributes
-        self.init_attributes(**kwargs)
+        self._init_attributes(**kwargs)
 
         # Establish parameters not sent in. In this case we don't need these
         # affecting anything, so we're setting them all to 0.
@@ -205,7 +205,7 @@ class DrawSurface:
         # Return the adjusted x, y, width, and height
         return x, y, width, height
 
-    def init_attributes(self, **kwargs):
+    def _init_attributes(self, **kwargs):
         """
         Initialize the attributes for the polygon being drawn,
         and set some of those attributes.

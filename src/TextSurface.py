@@ -41,7 +41,7 @@ class TextSurface:
 
         Class attributes:
                 alignment (str) -- the alignment of the text.
-                break_up_lines (bool) -- whether to break text up into
+                break_lines (bool) -- whether to break text up into
                         multiple lines if it's too long.
                 color (4-tuple) -- the color of the text as an RGB(A) tuple.
                 exterior_extended_surface (SimpleSurface) -- the Surface
@@ -78,7 +78,7 @@ class TextSurface:
         self.interior_extended_surface = None
 
         self.alignment = None
-        self.break_up_lines = None
+        self.break_lines = None
         self.color = None
         self.font = None
         self.font_face = None
@@ -530,7 +530,7 @@ class TextSurface:
         """
         # Grab the text attributes from the keyword arguments
         self.alignment = kwargs.get("alignment", "left")
-        self.break_up_lines = kwargs.get("break_up_lines", True)
+        self.break_lines = kwargs.get("break_lines", True)
         self.color = kwargs.get("color", (0, 0, 0))
         self.font = self._get_font(font)
         self.font_face = self._create_font_face()
@@ -669,7 +669,7 @@ class TextSurface:
             # If it doesn't fit, flush the current line to the list of lines.
             # Only do this if we already have at least one word in the line.
             # Also only do this if we want long lines broken up.
-            if self.break_up_lines and line_width > self.max_width and len(line) > 0:
+            if self.break_lines and line_width > self.max_width and len(line) > 0:
                 lines.append(" ".join(line))
                 line = []
 

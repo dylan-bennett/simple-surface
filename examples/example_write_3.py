@@ -25,7 +25,7 @@ bb_width, bb_height = surface.write(
     max_height=surface.get_height() / 6,
     padding={"top": 5, "right": 5, "bottom": 5, "left": 5},
 )
-surface.draw.rectangle(x, y, bb_width, bb_height, fill=False)
+surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
 # Write text to demonstrate what happens without automatic line breaks
 y += bb_height + text_buffer
@@ -43,11 +43,11 @@ bb_width, bb_height = surface.write(
     y,
     font="arial.ttf",
     max_height=surface.get_height() / 6,
-    break_up_lines=False,
+    break_lines=False,
     alignment="center",
     padding={"top": 5, "right": 5, "bottom": 5, "left": 5},
 )
-surface.draw.rectangle(x, y, bb_width, bb_height, fill=False)
+surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
 # Write text to show what happens with a specified font size and no automatic
 # line breaks
@@ -63,16 +63,16 @@ bb_width, bb_height = surface.write(
     y,
     font="arial.ttf",
     max_height=surface.get_height() / 6,
-    break_up_lines=False,
+    break_lines=False,
     font_size=14,
     alignment="left",
     padding={"top": 5, "right": 5, "bottom": 5, "left": 5},
 )
-surface.draw.rectangle("center", y, bb_width, bb_height, fill=False)
+surface.rectangle("center", y, bb_width, bb_height, fill=False)
 
 # Draw a line to separate the two example sections
 y_line = y + bb_height + text_buffer / 2
-surface.draw.line("left", y_line, "right", y_line)
+surface.line("left", y_line, "right", y_line)
 
 # Write white text with a black outline
 y += bb_height + text_buffer

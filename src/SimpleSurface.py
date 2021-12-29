@@ -32,8 +32,8 @@ class SimpleSurface:
         """
         self.surface = cairo.ImageSurface(image_format, width, height)
         self.context = cairo.Context(self.surface)
-        self.text = TextSurface(self)
-        self.draw = DrawSurface(self)
+        self.text_surface = TextSurface(self)
+        self.draw_surface = DrawSurface(self)
 
     def crop(self, x, y, width, height):
         """
@@ -67,8 +67,8 @@ class SimpleSurface:
         # Delete our old class attributes
         del self.surface
         del self.context
-        del self.text
-        del self.draw
+        del self.text_surface
+        del self.draw_surface
 
         # Set the cropped surface as our surface
         self.surface = cropped_surface
@@ -76,8 +76,8 @@ class SimpleSurface:
         # With the new ImageSurface object, we need to repoint our other
         # attributes at it
         self.context = cairo.Context(self.surface)
-        self.text = TextSurface(self)
-        self.draw = DrawSurface(self)
+        self.text_surface = TextSurface(self)
+        self.draw_surface = DrawSurface(self)
 
         # Delete the cropped surface and its Context
         del cropped_surface
@@ -100,7 +100,7 @@ class SimpleSurface:
                 outline_color (3- or 4-tuple) -- the RGB(A) color of the
                         dot's outline (default 'color').
         """
-        self.draw.dot(x, y, radius, **kwargs)
+        self.draw_surface.dot(x, y, radius, **kwargs)
 
     def ellipse(self, x, y, width, height, **kwargs):
         """
@@ -122,7 +122,7 @@ class SimpleSurface:
                 outline_color (3- or 4-tuple) -- the RGB(A) color of the
                         ellipse's outline (default 'color').
         """
-        self.draw.ellipse(x, y, width, height, **kwargs)
+        self.draw_surface.ellipse(x, y, width, height, **kwargs)
 
     def line(self, x1, y1, x2, y2, **kwargs):
         """
@@ -139,7 +139,7 @@ class SimpleSurface:
                         (default cairo.LINE_CAP_SQUARE).
                 line_width (int) -- the thickness of the line, in pixels.
         """
-        self.draw.line(x1, y1, x2, y2, **kwargs)
+        self.draw_surface.line(x1, y1, x2, y2, **kwargs)
 
     def polygon(self, points, **kwargs):
         """
@@ -159,7 +159,7 @@ class SimpleSurface:
                 outline_color (3- or 4-tuple) -- the RGB(A) color of the
                         polygon's outline (default 'color').
         """
-        self.draw.polygon(points, **kwargs)
+        self.draw_surface.polygon(points, **kwargs)
 
     def rectangle(self, x, y, width, height, **kwargs):
         """
@@ -180,7 +180,7 @@ class SimpleSurface:
                 outline_color (3- or 4-tuple) -- the RGB(A) color of the
                         rectangle's outline (default 'color').
         """
-        self.draw.rectangle(x, y, width, height, **kwargs)
+        self.draw_surface.rectangle(x, y, width, height, **kwargs)
 
     def rounded_rectangle(self, x, y, width, height, radius, **kwargs):
         """
@@ -203,7 +203,7 @@ class SimpleSurface:
                 outline_color (3- or 4-tuple) -- the RGB(A) color of the
                         rounded rectangle's outline (default 'color').
         """
-        self.draw.rounded_rectangle(x, y, width, height, radius, **kwargs)
+        self.draw_surface.rounded_rectangle(x, y, width, height, radius, **kwargs)
 
     def write(self, text, x, y, font, **kwargs):
         """
@@ -220,7 +220,7 @@ class SimpleSurface:
         Optional arguments:
                 alignment (str) -- the alignment of the text. Can be "left",
                         "center", "right", or "justified" (default "left").
-                break_up_lines (bool) -- whether to break text up into multiple
+                break_lines (bool) -- whether to break text up into multiple
                         lines if it's too long (default True).
                 color (3- or 4-tuple) -- the color of the text as an RGB(A)
                         tuple (default (0, 0, 0) (black)).
@@ -244,7 +244,7 @@ class SimpleSurface:
                         Any or all of the padding keys can be sent in.
                         (default {"top":0, "right":0, "bottom":0, "left":0}).
         """
-        return self.text.write(text, x, y, font, **kwargs)
+        return self.text_surface.write(text, x, y, font, **kwargs)
 
     def from_pil(self, image, alpha=1.0, image_format=cairo.FORMAT_ARGB32):
         """
@@ -274,8 +274,8 @@ class SimpleSurface:
         # Delete our old class attributes
         del self.surface
         del self.context
-        del self.text
-        del self.draw
+        del self.text_surface
+        del self.draw_surface
 
         # Convert the Image bytearray into a new ImageSurface
         self.surface = cairo.ImageSurface.create_for_data(
@@ -285,8 +285,8 @@ class SimpleSurface:
         # With the new ImageSurface object, we need to repoint our other
         # attributes at it
         self.context = cairo.Context(self.surface)
-        self.text = TextSurface(self)
-        self.draw = DrawSurface(self)
+        self.text_surface = TextSurface(self)
+        self.draw_surface = DrawSurface(self)
 
     def get_format(self):
         """Return the ImageSurface attribute's format."""
@@ -309,28 +309,28 @@ class SimpleSurface:
                         (default (0, 0, 0) (black)).
         """
         self.outline(color=color)
-        self.draw.line(
+        self.draw_surface.line(
             self.get_width() / 2, 0, self.get_width() / 2, self.get_height(), color=color
         )
-        self.draw.line(
+        self.draw_surface.line(
             0, self.get_height() / 2, self.get_width(), self.get_height() / 2, color=color
         )
 
-    def outline(self, color=(0, 0, 0), line_width=1):
+    def outline(self, color=(0, 0, 0), width=1):
         """
         Outline the surface.
 
         Keyword arguments:
                 color (3- or 4-tuple) -- the color of the outline
                         (default (0, 0, 0) (black)).
-                line_width (int) -- the width of the outline, in pixels
+                width (int) -- the width of the outline, in pixels
                         (default 1).
         """
-        self.draw.rectangle(
-            0, 0, self.get_width(), self.get_height(), color=color, outline=line_width, fill=False
+        self.draw_surface.rectangle(
+            0, 0, self.get_width(), self.get_height(), color=color, outline=width, fill=False
         )
 
-    def paste(self, origin, x, y, width=None, height=None, scaling_type="absolute", rotate=0):
+    def paste(self, origin, x, y, width=None, height=None, scaling="absolute", rotate=0):
         """
         Paste a given cairo.ImageSurface or SimpleSurface object at a
         given (x, y)-coordinate.
@@ -343,10 +343,10 @@ class SimpleSurface:
         If the width/height parameters are left as None, then they
         default to the width/height of the origin Surface.
 
-        The origin Surface is scaled no matter what. If the scaling_type
+        The origin Surface is scaled no matter what. If the scaling
         parameter is set to "absolute", then the resulting pasted image
         will be exactly the width and height variables (e.g., 600, 800).
-        If scaling_type is set to "ratio", then the origin Surface is
+        If scaling is set to "ratio", then the origin Surface is
         scaled by the ratios set by the width and height variables
         (e.g., 2.0, 1.5).
 
@@ -365,15 +365,15 @@ class SimpleSurface:
                         (default None).
                 height (float) -- the desired height of the pasted image
                         (default None).
-                scaling_type (str) -- how to scale the pasted image, either
+                scaling (str) -- how to scale the pasted image, either
                         "absolute" or "ratio" (default "absolute").
                 rotate (float) -- how much to rotate the pasted imaged
                         clockwise, in radians, where 2*pi is one full rotation
                         (default 0).
         """
         # Make sure the parameters follow the proper formatting
-        assert scaling_type in ["absolute", "ratio"], (
-            f"parameter 'scaling_type' cannot be '{scaling_type}', "
+        assert scaling in ["absolute", "ratio"], (
+            f"parameter 'scaling' cannot be '{scaling}', "
             "must be either 'absolute' or 'ratio'"
         )
         if isinstance(x, str):
@@ -414,10 +414,10 @@ class SimpleSurface:
                 height = origin.get_height()
 
             # Figure out how much to scale by based on the scaling type
-            if scaling_type == "absolute":
+            if scaling == "absolute":
                 scaling_width = width / origin.get_width()
                 scaling_height = height / origin.get_height()
-            elif scaling_type == "ratio":
+            elif scaling == "ratio":
                 scaling_width = width
                 scaling_height = height
 
@@ -471,7 +471,7 @@ class SimpleSurface:
                 color (3- or 4-tuple) -- the RGB color of the background
                         (default (255, 255, 255) (white)).
         """
-        self.draw.rectangle(0, 0, self.get_width(), self.get_height(), color=color)
+        self.draw_surface.rectangle(0, 0, self.get_width(), self.get_height(), color=color)
 
     def set_color(self, color):
         """
@@ -510,12 +510,12 @@ class SimpleSurface:
             1,
         )
 
-    def write_to_pdf(self, target_path, dpi=300):
+    def write_to_pdf(self, target, dpi=300):
         """
         Write our Surface to a PDF file.
 
         Keyword arguments:
-                target_path (str) -- the filepath of the PDF file to save to.
+                target (str) -- the filepath of the PDF file to save to.
                 dpi (float) -- the DPI of the image (default 300).
         """
         # Calculate the scale of resolution between our Surface and our PDF
@@ -524,7 +524,7 @@ class SimpleSurface:
 
         # Create the PDFSurface object at the proper dimensions
         pdf_surface = cairo.PDFSurface(
-            target_path,
+            target,
             self.surface.get_width() * pdf_scale,
             self.surface.get_height() * pdf_scale,
         )
@@ -543,11 +543,11 @@ class SimpleSurface:
         # Save the PDF file
         pdf_context.show_page()
 
-    def write_to_png(self, target_path):
+    def write_to_png(self, target):
         """
         Write our surface object to a PNG file.
 
         Keyword arguments:
-                target_path (str) -- the filepath of the PNG file to save to.
+                target (str) -- the filepath of the PNG file to save to.
         """
-        self.surface.write_to_png(target_path)
+        self.surface.write_to_png(target)

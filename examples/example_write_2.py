@@ -24,7 +24,7 @@ bb_width, bb_height = surface.write(
     max_width=surface.get_width() / 2,
     max_height=surface.get_height() / 2,
 )
-surface.draw.rectangle(x, y, bb_width, bb_height, fill=False)
+surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
 # Write right-aligned text in the top-right quadrant with a font size of 25 pts
 x, y = "right", "top"
@@ -42,7 +42,7 @@ bb_width, bb_height = surface.write(
     max_height=surface.get_height() / 2,
     alignment="right",
 )
-surface.draw.rectangle(x, y, bb_width, bb_height, fill=False)
+surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
 # Write center-aligned blue text in the bottom-left quadrant with a different
 # font and padding on all sides
@@ -69,7 +69,7 @@ bb_width, bb_height = surface.write(
     padding={"top": 10, "right": 20, "bottom": 30, "left": 40},
     alignment="center",
 )
-surface.draw.rectangle(x, y, bb_width, bb_height, fill=False)
+surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
 # Write two justified blocks of text: one to show the last line being
 # justified, and one to show it not being justified
@@ -89,7 +89,7 @@ bb_width, bb_height = surface.write(
     padding={"top": 5, "right": 5, "bottom": 5, "left": 5},
     font_size=20,
 )
-surface.draw.rectangle(x, y, bb_width, bb_height, fill=False)
+surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
 x = surface.get_width() / 2
 y += bb_height + 10
@@ -108,7 +108,7 @@ bb_width, bb_height = surface.write(
     padding={"top": 5, "right": 5, "bottom": 5, "left": 5},
     font_size=20,
 )
-surface.draw.rectangle(x, y, bb_width, bb_height, fill=False)
+surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
 # Write our drawing to a PNG file
 surface.write_to_png("example_write_2.png")
