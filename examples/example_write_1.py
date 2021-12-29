@@ -3,11 +3,11 @@
 from src.ImageSurfacePlus import ImageSurfacePlus
 
 # Create the ImageSurfacePlus object and set the background to white
-es = ImageSurfacePlus(600, 800)
-es.set_background()
+surface = ImageSurfacePlus(600, 800)
+surface.set_background()
 
 # Write text with default parameters
-es.text.write(
+surface.text.write(
     (
         "This is one text block written with the default parameters.\n\n"
         "Line breaks are supported and\n"
@@ -24,4 +24,4 @@ es.text.write(
 )
 
 # Write our drawing to a PNG file
-es.write_to_png("example_write_1.png")
+surface.write_to_png("example_write_1.png")
