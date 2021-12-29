@@ -1,5 +1,5 @@
 """
-Draw on an ImageSurfacePlus object.
+Draw on an SimpleSurface object.
 
 This class extends existing pycairo drawing functionality and introduces
 some new functionality. The code is intended to be clean and accessible,
@@ -52,14 +52,14 @@ def polygon_wrapper(func):
 
 
 class DrawSurface:
-    """Draw a polygon on an ImageSurfacePlus object."""
+    """Draw a polygon on an SimpleSurface object."""
 
     def __init__(self, calling_surface):
         """
         Initialize the DrawSurface object.
 
         Keyword arguments:
-                calling_surface (ImageSurfacePlus) -- the surface to be drawn onto.
+                calling_surface (SimpleSurface) -- the surface to be drawn onto.
 
         Class attributes:
                 color (4-tuple) -- the RGBA color of the polygon.

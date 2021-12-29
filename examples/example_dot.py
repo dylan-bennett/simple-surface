@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Examples of various ways to draw a dot."""
-from src.ImageSurfacePlus import ImageSurfacePlus
+from src.SimpleSurface import SimpleSurface
 
-# Create the ImageSurfacePlus object and set the background to white
-surface = ImageSurfacePlus(600, 800)
+# Create the SimpleSurface object and set the background to white
+surface = SimpleSurface(600, 800)
 surface.set_background()
 
 # Draw a black dot at (50, 50)

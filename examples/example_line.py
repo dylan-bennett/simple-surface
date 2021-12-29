@@ -2,10 +2,10 @@
 """Examples of various ways to draw a line."""
 import cairo
 
-from src.ImageSurfacePlus import ImageSurfacePlus
+from src.SimpleSurface import SimpleSurface
 
-# Create the ImageSurfacePlus object and set the background to white
-surface = ImageSurfacePlus(600, 800)
+# Create the SimpleSurface object and set the background to white
+surface = SimpleSurface(600, 800)
 surface.set_background()
 
 # Draw a black line from (50, 250) to (200, 50)

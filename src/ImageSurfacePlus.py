@@ -11,12 +11,12 @@ from .DrawSurface import DrawSurface
 from .TextSurface import TextSurface
 
 
-class ImageSurfacePlus:
+class SimpleSurface:
     """Extend the functionality of the cairo.ImageSurface class."""
 
     def __init__(self, width, height, image_format=cairo.FORMAT_ARGB32):
         """
-        Initialize the ImageSurfacePlus object.
+        Initialize the SimpleSurface object.
 
         Keyword arguments:
                 width (int) -- the width of the image, in pixels.
@@ -169,7 +169,7 @@ class ImageSurfacePlus:
 
     def paste(self, origin, x, y, width=None, height=None, scaling_type="absolute", rotate=0):
         """
-        Paste a given cairo.ImageSurface or ImageSurfacePlus object at a
+        Paste a given cairo.ImageSurface or SimpleSurface object at a
         given (x, y)-coordinate.
 
         The x, y values specify the top-left corner of where to paste
@@ -192,7 +192,7 @@ class ImageSurfacePlus:
         corner (i.e., the (x, y)-coordinate).
 
         Keyword arguments:
-                origin (cairo.ImageSurface/ImageSurfacePlus) -- the
+                origin (cairo.ImageSurface/SimpleSurface) -- the
                         surface that's going to be pasted.
                 x (float/str) -- the x-coordinate of the image. It can be
                         either a number, or one of "left", "center", or "right".
@@ -227,9 +227,9 @@ class ImageSurfacePlus:
         # Save the state of our Context in order to restore it at the end
         self.context.save()
 
-        # If origin is an ImageSurfacePlus object, then we just want to work
+        # If origin is an SimpleSurface object, then we just want to work
         # with its ImageSurface attribute
-        if isinstance(origin, ImageSurfacePlus):
+        if isinstance(origin, SimpleSurface):
             origin = origin.surface
 
         # Create a SurfacePattern object with which to paste the image

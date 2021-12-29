@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Examples of various ways to draw a rectangle."""
-from src.ImageSurfacePlus import ImageSurfacePlus
+from src.SimpleSurface import SimpleSurface
 
-# Create the ImageSurfacePlus object and set the background to yellow
-surface = ImageSurfacePlus(600, 800)
+# Create the SimpleSurface object and set the background to yellow
+surface = SimpleSurface(600, 800)
 surface.set_background((255, 255, 0))
 
 # Draw a black rectangle at (50, 50) and measuring 100x200 pixels

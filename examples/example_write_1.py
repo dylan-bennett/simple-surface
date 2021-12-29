@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Example of text written with the default parameters."""
-from src.ImageSurfacePlus import ImageSurfacePlus
+from src.SimpleSurface import SimpleSurface
 
-# Create the ImageSurfacePlus object and set the background to white
-surface = ImageSurfacePlus(600, 800)
+# Create the SimpleSurface object and set the background to white
+surface = SimpleSurface(600, 800)
 surface.set_background()
 
 # Write text with default parameters

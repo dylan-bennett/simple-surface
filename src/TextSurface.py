@@ -1,5 +1,5 @@
 """
-Write text onto an ImageSurfacePlus object.
+Write text onto an SimpleSurface object.
 
 This class allows for easier manipulation of text bring written on a
 Surface. Basic functionality is provided, such as specifying the font
@@ -36,7 +36,7 @@ class TextSurface:
         Initialize the TextSurface object.
 
         Keyword arguments:
-                calling_surface (ImageSurfacePlus) -- the surface onto which
+                calling_surface (SimpleSurface) -- the surface onto which
                         text will be written.
 
         Class attributes:
@@ -44,12 +44,12 @@ class TextSurface:
                 break_up_lines (bool) -- whether to break text up into
                         multiple lines if it's too long.
                 color (4-tuple) -- the color of the text as an RGB(A) tuple.
-                exterior_extended_surface (ImageSurfacePlus) -- the Surface
+                exterior_extended_surface (SimpleSurface) -- the Surface
                         containing the text within the padding.
                 font_size (int) -- the font size, in pts.
                 full_line_height (float) -- the height of one line of text,
                         including ascent and descent.
-                interior_extended_surface (ImageSurfacePlus) -- the Surface
+                interior_extended_surface (SimpleSurface) -- the Surface
                         containing just the text.
                 justify_last_line (bool) -- whether to justify the last line
                         of text , if the text is justified.
@@ -149,8 +149,8 @@ class TextSurface:
                 "or one of 'top', 'center', or 'bottom'"
             )
 
-        # Import the ImageSurfacePlus module
-        from .ImageSurfacePlus import ImageSurfacePlus
+        # Import the SimpleSurface module
+        from .SimpleSurface import SimpleSurface
 
         # Initialize the text attributes based on the keyword arguments
         self._init_attributes(font, **kwargs)
@@ -187,17 +187,17 @@ class TextSurface:
             self.text_lines
         )
 
-        # Create the interior ImageSurfacePlus to hold the text block
-        self.interior_extended_surface = ImageSurfacePlus(
+        # Create the interior SimpleSurface to hold the text block
+        self.interior_extended_surface = SimpleSurface(
             int(self.text_width + self.outline), int(self.text_height + self.outline)
         )
 
         # Write the text to the interior
         self._write_text_to_interior()
 
-        # Create the exterior ImageSurfacePlus to hold the text block within
+        # Create the exterior SimpleSurface to hold the text block within
         # the given padding
-        self.exterior_extended_surface = ImageSurfacePlus(
+        self.exterior_extended_surface = SimpleSurface(
             int(
                 self.padding["left"]
                 + self.interior_extended_surface.get_width()
@@ -737,7 +737,7 @@ class TextSurface:
 
     def _write_text_to_interior(self):
         """
-        Write the lines of text to the interior ImageSurfacePlus.
+        Write the lines of text to the interior SimpleSurface.
 
         Go through the text line by line and write it. The placement of
         the text is calculated according to the alignment.
