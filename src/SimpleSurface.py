@@ -3,9 +3,6 @@ Extend the functionality of cairo.ImageSurface to allow for easier and
 cleaner vector drawing, text writing, and image manipulation.
 """
 import cairo
-import numpy
-
-from PIL import Image
 
 from .DrawSurface import DrawSurface
 from .TextSurface import TextSurface
@@ -27,8 +24,8 @@ class SimpleSurface:
         Attributes:
                 surface (ImageSurface) -- the Surface where everything is drawn.
                 context (Context) -- the Context associated with the Surface.
-                text (TextSurface) -- the TextSurface object used to write text.
-                draw (DrawSurface) -- the DrawSurface object used to draw things.
+                text_surface (TextSurface) -- the TextSurface object used to write text.
+                draw_surface (DrawSurface) -- the DrawSurface object used to draw things.
         """
         self.surface = cairo.ImageSurface(image_format, width, height)
         self.context = cairo.Context(self.surface)
@@ -246,48 +243,6 @@ class SimpleSurface:
         """
         return self.text_surface.write(text, x, y, font, **kwargs)
 
-    def from_pil(self, image, alpha=1.0, image_format=cairo.FORMAT_ARGB32):
-        """
-        Return a cairo.ImageSurface representation of a given PIL.Image
-        object.
-
-        Keyword arguments:
-                image (ImageDraw.Draw) -- the Image to convert.
-                alpha (float) -- alpha to add to non-alpha images
-                        (default 1.0).
-                image_format (cairo.FORMAT) -- Pixel image_format for output surface
-                        (default cairo.FORMAT_ARGB32).
-        """
-        # Make sure the format is okay
-        assert image_format in (
-            cairo.FORMAT_RGB24,
-            cairo.FORMAT_ARGB32,
-        ), f"Unsupported pixel image_format: '{image_format}'"
-
-        # If there's no alpha channel, add in an opaque one
-        if "A" not in image.getbands():
-            image.putalpha(int(alpha * 256.0))
-
-        # Convert the PIL.Image object into a bytearray
-        arr = bytearray(image.tobytes("raw", "BGRa"))
-
-        # Delete our old class attributes
-        del self.surface
-        del self.context
-        del self.text_surface
-        del self.draw_surface
-
-        # Convert the Image bytearray into a new ImageSurface
-        self.surface = cairo.ImageSurface.create_for_data(
-            arr, image_format, image.width, image.height
-        )
-
-        # With the new ImageSurface object, we need to repoint our other
-        # attributes at it
-        self.context = cairo.Context(self.surface)
-        self.text_surface = TextSurface(self)
-        self.draw_surface = DrawSurface(self)
-
     def get_format(self):
         """Return the ImageSurface attribute's format."""
         return self.surface.get_format()
@@ -486,29 +441,6 @@ class SimpleSurface:
         r, g, b, *a = color
         a = a[0] if len(a) > 0 else 255
         self.context.set_source_rgba(r / 255, g / 255, b / 255, a / 255)
-
-    def to_pil(self):
-        """
-        Return the cairo.ImageSurface object, converted into a PIL.Image
-        object.
-        """
-        # We need to convert the data from RGBA to BGRA manually.
-        # If we don't do this, then the colours switch.
-        argb_array = numpy.fromstring(bytes(self.surface.get_data()), "c").reshape(-1, 4)
-        for el in argb_array:
-            el[0:3] = el[0:3][::-1]
-        pil_data = argb_array.reshape(-1).tostring()
-
-        # Return the PIL.Image object representing our ImageSurface
-        return Image.frombuffer(
-            "RGBA",
-            (self.surface.get_width(), self.surface.get_height()),
-            pil_data,
-            "raw",
-            "RGBA",
-            0,
-            1,
-        )
 
     def write_to_pdf(self, target, dpi=300):
         """

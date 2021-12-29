@@ -1,7 +1,7 @@
 """
 Write text onto an SimpleSurface object.
 
-This class allows for easier manipulation of text bring written on a
+This class allows for easier manipulation of text being written on a
 Surface. Basic functionality is provided, such as specifying the font
 (based on a local font file), font size, and location of text. More
 advanced functionality is also provided, including:
