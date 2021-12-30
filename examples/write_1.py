@@ -20,7 +20,7 @@ surface.write(
     ),
     0,
     0,
-    "arial.ttf",
+    "examples/fonts/arial.ttf",
 )
 
 # Write our drawing to a PNG file

@@ -20,11 +20,8 @@ advanced functionality is also provided, including:
   (newlines are still taken into account in this case)
 """
 import ctypes as ct
-import os
 
 import cairo
-
-FONT_DIR = os.path.join("fonts")
 
 
 class TextSurface:
@@ -110,11 +107,14 @@ class TextSurface:
                 "or one of 'top', 'center', or 'bottom'"
             )
 
+        # Set the font path
+        self.font = font
+
         # Import the SimpleSurface module
         from .SimpleSurface import SimpleSurface
 
         # Initialize the text attributes based on the keyword arguments
-        self._init_attributes(font, **kwargs)
+        self._init_attributes(**kwargs)
 
         # Convert the text sent in to a string
         text = str(text)
@@ -412,17 +412,6 @@ class TextSurface:
         # Return the text dimensions for the text based on the font size
         return width, height
 
-    @staticmethod
-    def _get_font(font_name):
-        """
-        Return the path to a font filename.
-
-        Keyword arguments:
-                font_name (str) -- the filename of the font.
-        """
-        font_path = os.path.join(FONT_DIR, font_name)
-        return font_path
-
     def _get_text_dimensions(self, lines, font_size=None):
         """
         Return the width and height of the bounding box that exactly
@@ -515,12 +504,11 @@ class TextSurface:
 
         return text_width, text_height, line_dictionary
 
-    def _init_attributes(self, font, **kwargs):
+    def _init_attributes(self, **kwargs):
         """
         Initialize the class attributes based on the keyword arguments sent in.
 
         Keyword arguments:
-                font (str) -- the filename of the font.
                 **kwargs (dict) -- the keyword arguments (see TextSurface.write()
                         documentation for list of all keyword arguments)
         """
@@ -528,7 +516,6 @@ class TextSurface:
         self.alignment = kwargs.get("alignment", "left")
         self.break_lines = kwargs.get("break_lines", True)
         self.color = kwargs.get("color", (0, 0, 0))
-        self.font = self._get_font(font)
         self.font_face = self._create_font_face()
         self.font_size = kwargs.get("font_size", "fill")
         self.justify_last_line = kwargs.get("justify_last_line", False)
