@@ -20,7 +20,6 @@ advanced functionality is also provided, including:
   (newlines are still taken into account in this case)
 """
 import ctypes as ct
-import logging
 import os
 
 import cairo
@@ -134,12 +133,9 @@ class TextSurface:
             self.font_size = self._calculate_max_font_size(text)
 
         # If we can't determine a font size, then exit out
-        if self.font_size < 0:
-            logging.error(
-                f"Cannot write text given these constraints: "
-                f"{text}, {x}, {y}, {font}, {kwargs}"
-            )
-            return None, None
+        assert (
+            self.font_size >= 0
+        ), f"Cannot write text given these constraints: {text}, {x}, {y}, {font}, {kwargs}"
 
         # Now that we have a font size, split the text up into separate lines
         self.text_lines = self._split_text_into_lines(text)
