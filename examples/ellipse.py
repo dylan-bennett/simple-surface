@@ -6,33 +6,83 @@ from src.SimpleSurface import SimpleSurface
 surface = SimpleSurface(600, 800)
 surface.set_background((255, 255, 0))
 
-# Draw a black ellipse at (50, 50) and measuring 100x200 pixels
-surface.ellipse(50, 50, 100, 200)
+font = "examples/fonts/arial.ttf"
+font_size = 16
 
-# Draw a blue ellipse at ("left", 650) and measuring 200x100 pixels
-surface.ellipse("left", 650, width=200, height=100, color=(0, 0, 255))
+# Write a title
+title_width, title_height = surface.write(
+    "ellipse()", "center", "top", font=font, font_size=30, padding={"top": 10}
+)
 
-# Draw an empty ellipse at (200, "top") measuring 200x250 pixels
-surface.ellipse(200, "top", 200, 250, fill=False, outline=20)
+# Describe the ellipse function at the top
+y = title_height + 10
+_, text_height = surface.write(
+    (
+        "The ellipse function draws an ellipse of any size, originating at the top-left corner.\n\n"
+        "Optional arguments include the colour, whether or not to fill it "
+        "with colour, the outline thickness, and the outline colour.\n\n"
+        "The width and height of the ellipse take into account the thickness of the "
+        "outline, so the resulting shape's size will always be the values "
+        "sent in."
+    ),
+    "center",
+    y,
+    font,
+    font_size=font_size,
+    alignment="center",
+    padding={"top": 10, "left": 10, "right": 10},
+)
+y += text_height + 10
+surface.line("left", y + 10, "right", y + 10)
 
-# Draw a pink ellipse at ("right", "bottom") that fills in the entire
-# bottom-right quadrant with a purple outline that is 20 pixels thick
-surface.ellipse(
-    x="right",
-    y="bottom",
-    width=surface.get_width() / 2,
-    height=surface.get_height() / 2,
-    color=(255, 192, 203),
-    outline=20,
-    outline_color=(128, 0, 128),
+# Draw a black ellipse measuring 50x100 pixels
+y += 50
+surface.ellipse(50, y, 50, 100)
+surface.write(
+    f"ellipse(50, {y}, 50, 100)",
+    50,
+    y - (font_size + 5),
+    font=font,
+    font_size=font_size,
 )
 
 # Draw a transparent lime-green ellipse at ("center", "center") measuring
 # 250x250 pixels and with a red outline
+surface.write(
+    'ellipse("center", "center", 250, 250,\ncolor=(50, 205, 50, 128), outline_color=(255, 0, 0))\n(The RGBA color makes this one see-through!)',
+    "center",
+    "center",
+    font=font,
+    max_width=surface.get_width() * 0.75,
+    alignment="center",
+    font_size=font_size,
+)
 surface.ellipse("center", "center", 250, 250, color=(50, 205, 50, 128), outline_color=(255, 0, 0))
 
-# Draw gridlines for reference (outline + vertical/horizontal center lines)
-surface.gridlines()
+# Draw an empty ellipse measuring 200x250 pixels with an outline 20 pixels thick
+surface.ellipse(450, 590, 120, 200, fill=False, outline=20)
+surface.write(
+    "ellipse(450, 590, 120, 200, fill=False, outline=20)", "right", 570, font=font, font_size=font_size
+)
+
+# Draw a pink ellipse at ("left", "bottom") that fills in the entire
+# bottom-right quadrant with a purple outline that is 20 pixels thick
+surface.ellipse(
+    x="left",
+    y="bottom",
+    width=surface.get_width() / 4,
+    height=surface.get_height() / 4,
+    color=(255, 192, 203),
+    outline=10,
+    outline_color=(128, 0, 128),
+)
+a, b = surface.write(
+    'ellipse(\nx="left",\ny="bottom",\nwidth=surface.get_width() / 4,\nheight=surface.get_height() / 4,\ncolor=(255, 192, 203),\noutline=10,\noutline_color=(128, 0, 128),\n)',
+    surface.get_width() / 4 + 20,
+    "bottom",
+    font=font,
+    font_size=font_size,
+)
 
 # Write our drawing to a PNG file
 surface.write_to_png("example_ellipse.png")

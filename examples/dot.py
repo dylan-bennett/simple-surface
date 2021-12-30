@@ -22,8 +22,8 @@ _, text_height = surface.write(
         "The default radius is 1 pixel (you know, like a dot).\n\n"
         "Optional arguments include the colour, whether or not to fill it "
         "with colour, the outline thickness, and the outline colour.\n\n"
-        "The radius of the dot drawn takes into account the thickness of the "
-        "outline, so the resulting image's radius will always be the value "
+        "The radius of the dot takes into account the thickness of the "
+        "outline, so the resulting shape's radius will always be the value "
         "sent in."
     ),
     "center",
@@ -36,7 +36,7 @@ _, text_height = surface.write(
 y += text_height + 10
 surface.line("left", y + 10, "right", y + 10)
 
-# Draw a black dot at (50, 50)
+# Draw a black dot
 y += 50
 surface.dot(50, y)
 surface.write(
@@ -47,7 +47,7 @@ surface.write(
     font_size=font_size,
 )
 
-# Draw a blue dot at ("left", 150) with a radius of 20 pixels
+# Draw a blue dot with a radius of 20 pixels
 y += 50
 surface.dot(x="left", y=y, radius=20, color=(0, 0, 255))
 surface.write(
@@ -69,7 +69,7 @@ surface.write(
     font_size=font_size,
 )
 
-# Draw an empty dot at (200, "top") with a radius of 10 pixels
+# Draw an empty dot with a radius of 30 pixels
 surface.dot(500, 540, 30, fill=False)
 surface.write(
     "dot(500, 540, 30, fill=False)", 250, 540 - font_size / 2, font=font, font_size=font_size
