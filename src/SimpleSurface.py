@@ -121,128 +121,6 @@ class SimpleSurface:
         """
         self.draw_surface.ellipse(x, y, width, height, **kwargs)
 
-    def line(self, x1, y1, x2, y2, **kwargs):
-        """
-        Draw a line connecting two points at given sets of coordinates.
-
-        Keyword arguments:
-                x1 (int/str) -- the x-coordinate of the first point.
-                y1 (int/str) -- the y-coordinate of the first point.
-                x2 (int/str) -- the x-coordinate of the second point.
-                y2 (int/str) -- the y-coordinate of the second point.
-                color (3- or 4-tuple) -- the RGB(A) color of the polygon
-                        (default (0, 0, 0) (black)).
-                line_cap (cairo.LINE_CAP) -- the cap at the end of the line
-                        (default cairo.LINE_CAP_SQUARE).
-                line_width (int) -- the thickness of the line, in pixels.
-        """
-        self.draw_surface.line(x1, y1, x2, y2, **kwargs)
-
-    def polygon(self, points, **kwargs):
-        """
-        Draw a polygon that connects a series of (x, y)-coordinates.
-
-        Keyword arguments:
-                points (list) -- a list of xy-coordinates as tuples,
-                        indicating the vertices of the polygon.
-                color (3- or 4-tuple) -- the RGB(A) color of the polygon
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the polygon with color
-                        (default True).
-                line_join(cairo.LINE_JOIN) -- the rendering between two
-                        joining lines (default cairo.LINE_JOIN_MITER).
-                outline (int) -- the thickness of the polygon's outline,
-                        in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
-                        polygon's outline (default 'color').
-        """
-        self.draw_surface.polygon(points, **kwargs)
-
-    def rectangle(self, x, y, width, height, **kwargs):
-        """
-        Draw a rectangle. The (x, y)-coordinates correspond to the
-        top-left corner of the rectangle.
-
-        Keyword arguments:
-                x (int/str) -- the x-coordinate.
-                y (int/str) -- the y-coordinate.
-                width (int) -- the width of the rectangle.
-                height (int) -- the height of the rectangle.
-                color (3- or 4-tuple) -- the RGB(A) color of the rectangle
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the rectangle with color
-                        (default True).
-                outline (int) -- the thickness of the rectangle's outline,
-                        in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
-                        rectangle's outline (default 'color').
-        """
-        self.draw_surface.rectangle(x, y, width, height, **kwargs)
-
-    def rounded_rectangle(self, x, y, width, height, radius, **kwargs):
-        """
-        Draw a rectangle with rounded corners. The (x, y)-coordinates
-        correspond to the top-left corner of the bounding box that would
-        contain the rounded rectangle.
-
-        Keyword arguments:
-                x (int/str) -- the x-coordinate.
-                y (int/str) -- the y-coordinate.
-                width (int) -- the width of the rounded rectangle.
-                height (int) -- the height of the rounded rectangle.
-                radius (int) -- the radius of the rectangle's corners.
-                color (3- or 4-tuple) -- the RGB(A) color of the rounded rectangle
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the rounded rectangle with
-                        color (default True).
-                outline (int) -- the thickness of the rounded rectangle's outline,
-                        in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
-                        rounded rectangle's outline (default 'color').
-        """
-        self.draw_surface.rounded_rectangle(x, y, width, height, radius, **kwargs)
-
-    def write(self, text, x, y, font, **kwargs):
-        """
-        Write text at given coordinates, with given attributes. Return
-        the resulting width and height of the bounding box that includes
-        the text and padding.
-
-        Keyword arguments:
-                text (str) -- the text to be written.
-                x (float) -- the x-coordinate of the text.
-                y (float) -- the y-coordinate of the text.
-                font (str) -- the filename of the font.
-
-        Optional arguments:
-                alignment (str) -- the alignment of the text. Can be "left",
-                        "center", "right", or "justified" (default "left").
-                break_lines (bool) -- whether to break text up into multiple
-                        lines if it's too long (default True).
-                color (3- or 4-tuple) -- the color of the text as an RGB(A)
-                        tuple (default (0, 0, 0) (black)).
-                font_size (int/str) -- the font size, in pts. If set to "fill",
-                        it will be the largest font size it can be (default "fill").
-                justify_last_line (bool) -- whether to justify the last line
-                        of text , if the text is justified. If set to False, the
-                        last line will be left-aligned (default False).
-                line_spacing (float) -- the line spacing multiplier (default 1.0).
-                max_height (int) -- the maximum vertical space the text and
-                        padding will take up. If set to "fill", it will be the
-                        largest height needed/allowed (default "fill").
-                max_width (int) -- the maximum horizontal space the text and
-                        padding will take up. If set to "fill", it will be the
-                        largest width needed/allowed (default "fill").
-                min_font_size (int) -- the minimum font size, in pts (default 7).
-                outline (int) -- the text outline width, in pixels (default 0).
-                outline_color (3- or 4-tuple) -- the color of the text outline
-                        as an RGB(A) tuple (default (0, 0, 0) (black)).
-                padding (dict) -- the padding around the text, in pixels.
-                        Any or all of the padding keys can be sent in.
-                        (default {"top":0, "right":0, "bottom":0, "left":0}).
-        """
-        return self.text_surface.write(text, x, y, font, **kwargs)
-
     def get_format(self):
         """Return the ImageSurface attribute's format."""
         return self.surface.get_format()
@@ -270,6 +148,23 @@ class SimpleSurface:
         self.draw_surface.line(
             0, self.get_height() / 2, self.get_width(), self.get_height() / 2, color=color
         )
+
+    def line(self, x1, y1, x2, y2, **kwargs):
+        """
+        Draw a line connecting two points at given sets of coordinates.
+
+        Keyword arguments:
+                x1 (int/str) -- the x-coordinate of the first point.
+                y1 (int/str) -- the y-coordinate of the first point.
+                x2 (int/str) -- the x-coordinate of the second point.
+                y2 (int/str) -- the y-coordinate of the second point.
+                color (3- or 4-tuple) -- the RGB(A) color of the polygon
+                        (default (0, 0, 0) (black)).
+                line_cap (cairo.LINE_CAP) -- the cap at the end of the line
+                        (default cairo.LINE_CAP_SQUARE).
+                line_width (int) -- the thickness of the line, in pixels.
+        """
+        self.draw_surface.line(x1, y1, x2, y2, **kwargs)
 
     def outline(self, color=(0, 0, 0), width=1):
         """
@@ -328,8 +223,7 @@ class SimpleSurface:
         """
         # Make sure the parameters follow the proper formatting
         assert scaling in ["absolute", "ratio"], (
-            f"parameter 'scaling' cannot be '{scaling}', "
-            "must be either 'absolute' or 'ratio'"
+            f"parameter 'scaling' cannot be '{scaling}', " "must be either 'absolute' or 'ratio'"
         )
         if isinstance(x, str):
             assert x in ["left", "center", "right"], (
@@ -418,6 +312,70 @@ class SimpleSurface:
         # Restore our Context back to its original state
         self.context.restore()
 
+    def polygon(self, points, **kwargs):
+        """
+        Draw a polygon that connects a series of (x, y)-coordinates.
+
+        Keyword arguments:
+                points (list) -- a list of xy-coordinates as tuples,
+                        indicating the vertices of the polygon.
+                color (3- or 4-tuple) -- the RGB(A) color of the polygon
+                        (default (0, 0, 0) (black)).
+                fill (bool) -- whether or not to fill the polygon with color
+                        (default True).
+                line_join(cairo.LINE_JOIN) -- the rendering between two
+                        joining lines (default cairo.LINE_JOIN_MITER).
+                outline (int) -- the thickness of the polygon's outline,
+                        in pixels (default 1).
+                outline_color (3- or 4-tuple) -- the RGB(A) color of the
+                        polygon's outline (default 'color').
+        """
+        self.draw_surface.polygon(points, **kwargs)
+
+    def rectangle(self, x, y, width, height, **kwargs):
+        """
+        Draw a rectangle. The (x, y)-coordinates correspond to the
+        top-left corner of the rectangle.
+
+        Keyword arguments:
+                x (int/str) -- the x-coordinate.
+                y (int/str) -- the y-coordinate.
+                width (int) -- the width of the rectangle.
+                height (int) -- the height of the rectangle.
+                color (3- or 4-tuple) -- the RGB(A) color of the rectangle
+                        (default (0, 0, 0) (black)).
+                fill (bool) -- whether or not to fill the rectangle with color
+                        (default True).
+                outline (int) -- the thickness of the rectangle's outline,
+                        in pixels (default 1).
+                outline_color (3- or 4-tuple) -- the RGB(A) color of the
+                        rectangle's outline (default 'color').
+        """
+        self.draw_surface.rectangle(x, y, width, height, **kwargs)
+
+    def rounded_rectangle(self, x, y, width, height, radius, **kwargs):
+        """
+        Draw a rectangle with rounded corners. The (x, y)-coordinates
+        correspond to the top-left corner of the bounding box that would
+        contain the rounded rectangle.
+
+        Keyword arguments:
+                x (int/str) -- the x-coordinate.
+                y (int/str) -- the y-coordinate.
+                width (int) -- the width of the rounded rectangle.
+                height (int) -- the height of the rounded rectangle.
+                radius (int) -- the radius of the rectangle's corners.
+                color (3- or 4-tuple) -- the RGB(A) color of the rounded rectangle
+                        (default (0, 0, 0) (black)).
+                fill (bool) -- whether or not to fill the rounded rectangle with
+                        color (default True).
+                outline (int) -- the thickness of the rounded rectangle's outline,
+                        in pixels (default 1).
+                outline_color (3- or 4-tuple) -- the RGB(A) color of the
+                        rounded rectangle's outline (default 'color').
+        """
+        self.draw_surface.rounded_rectangle(x, y, width, height, radius, **kwargs)
+
     def set_background(self, color=(255, 255, 255)):
         """
         Set the surface background to a given color.
@@ -441,6 +399,47 @@ class SimpleSurface:
         r, g, b, *a = color
         a = a[0] if len(a) > 0 else 255
         self.context.set_source_rgba(r / 255, g / 255, b / 255, a / 255)
+
+    def write(self, text, x, y, font, **kwargs):
+        """
+        Write text at given coordinates, with given attributes. Return
+        the resulting width and height of the bounding box that includes
+        the text and padding.
+
+        Keyword arguments:
+                text (str) -- the text to be written.
+                x (float) -- the x-coordinate of the text.
+                y (float) -- the y-coordinate of the text.
+                font (str) -- the filename of the font.
+
+        Optional arguments:
+                alignment (str) -- the alignment of the text. Can be "left",
+                        "center", "right", or "justified" (default "left").
+                break_lines (bool) -- whether to break text up into multiple
+                        lines if it's too long (default True).
+                color (3- or 4-tuple) -- the color of the text as an RGB(A)
+                        tuple (default (0, 0, 0) (black)).
+                font_size (int/str) -- the font size, in pts. If set to "fill",
+                        it will be the largest font size it can be (default "fill").
+                justify_last_line (bool) -- whether to justify the last line
+                        of text , if the text is justified. If set to False, the
+                        last line will be left-aligned (default False).
+                line_spacing (float) -- the line spacing multiplier (default 1.0).
+                max_height (int) -- the maximum vertical space the text and
+                        padding will take up. If set to "fill", it will be the
+                        largest height needed/allowed (default "fill").
+                max_width (int) -- the maximum horizontal space the text and
+                        padding will take up. If set to "fill", it will be the
+                        largest width needed/allowed (default "fill").
+                min_font_size (int) -- the minimum font size, in pts (default 7).
+                outline (int) -- the text outline width, in pixels (default 0).
+                outline_color (3- or 4-tuple) -- the color of the text outline
+                        as an RGB(A) tuple (default (0, 0, 0) (black)).
+                padding (dict) -- the padding around the text, in pixels.
+                        Any or all of the padding keys can be sent in.
+                        (default {"top":0, "right":0, "bottom":0, "left":0}).
+        """
+        return self.text_surface.write(text, x, y, font, **kwargs)
 
     def write_to_pdf(self, target, dpi=300):
         """
