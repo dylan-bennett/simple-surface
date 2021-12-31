@@ -88,13 +88,13 @@ class SimpleSurface:
                 x (int/str) -- the x-coordinate.
                 y (int/str) -- the y-coordinate.
                 radius (int) -- the radius of the dot (default 1).
-                color (3- or 4-tuple) -- the RGB(A) color of the dot
+                fill_color (3- or 4-tuple) -- the RGB(A) color of the dot
                         (default (0, 0, 0) (black)).
                 fill (bool) -- whether or not to fill the dot with color
                         (default True).
-                outline (int) -- the thickness of the dot's outline,
+                line_width (int) -- the thickness of the dot's outline,
                         in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
+                line_color (3- or 4-tuple) -- the RGB(A) color of the
                         dot's outline (default 'color').
         """
         self.draw_surface.dot(x, y, radius, **kwargs)
@@ -110,13 +110,13 @@ class SimpleSurface:
                 y (int/str) -- the y-coordinate of the ellipse.
                 width (int) -- the width of the ellipse.
                 height (int) -- the height of the ellipse.
-                color (3- or 4-tuple) -- the RGB(A) color of the ellipse
+                fill_color (3- or 4-tuple) -- the RGB(A) color of the ellipse
                         (default (0, 0, 0) (black)).
                 fill (bool) -- whether or not to fill the ellipse with color
                         (default True).
-                outline (int) -- the thickness of the ellipse's outline,
+                line_width (int) -- the thickness of the ellipse's outline,
                         in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
+                line_color (3- or 4-tuple) -- the RGB(A) color of the
                         ellipse's outline (default 'color').
         """
         self.draw_surface.ellipse(x, y, width, height, **kwargs)
@@ -143,10 +143,10 @@ class SimpleSurface:
         """
         self.outline(color=color)
         self.draw_surface.line(
-            self.get_width() / 2, 0, self.get_width() / 2, self.get_height(), color=color
+            self.get_width() / 2, 0, self.get_width() / 2, self.get_height(), line_color=color
         )
         self.draw_surface.line(
-            0, self.get_height() / 2, self.get_width(), self.get_height() / 2, color=color
+            0, self.get_height() / 2, self.get_width(), self.get_height() / 2, line_color=color
         )
 
     def line(self, x1, y1, x2, y2, **kwargs):
@@ -158,7 +158,7 @@ class SimpleSurface:
                 y1 (int/str) -- the y-coordinate of the first point.
                 x2 (int/str) -- the x-coordinate of the second point.
                 y2 (int/str) -- the y-coordinate of the second point.
-                color (3- or 4-tuple) -- the RGB(A) color of the polygon
+                line_color (3- or 4-tuple) -- the RGB(A) color of the line
                         (default (0, 0, 0) (black)).
                 line_cap (cairo.LINE_CAP) -- the cap at the end of the line
                         (default cairo.LINE_CAP_SQUARE).
@@ -177,7 +177,7 @@ class SimpleSurface:
                         (default 1).
         """
         self.draw_surface.rectangle(
-            0, 0, self.get_width(), self.get_height(), color=color, outline=width, fill=False
+            0, 0, self.get_width(), self.get_height(), fill_color=color, line_width=width, fill=False
         )
 
     def paste(self, origin, x, y, width=None, height=None, scaling="absolute", rotate=0):
@@ -319,15 +319,15 @@ class SimpleSurface:
         Keyword arguments:
                 points (list) -- a list of xy-coordinates as tuples,
                         indicating the vertices of the polygon.
-                color (3- or 4-tuple) -- the RGB(A) color of the polygon
+                fill_color (3- or 4-tuple) -- the RGB(A) color of the polygon
                         (default (0, 0, 0) (black)).
                 fill (bool) -- whether or not to fill the polygon with color
                         (default True).
                 line_join(cairo.LINE_JOIN) -- the rendering between two
                         joining lines (default cairo.LINE_JOIN_MITER).
-                outline (int) -- the thickness of the polygon's outline,
+                line_width (int) -- the thickness of the polygon's outline,
                         in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
+                line_color (3- or 4-tuple) -- the RGB(A) color of the
                         polygon's outline (default 'color').
         """
         self.draw_surface.polygon(points, **kwargs)
@@ -342,13 +342,13 @@ class SimpleSurface:
                 y (int/str) -- the y-coordinate.
                 width (int) -- the width of the rectangle.
                 height (int) -- the height of the rectangle.
-                color (3- or 4-tuple) -- the RGB(A) color of the rectangle
+                fill_color (3- or 4-tuple) -- the RGB(A) color of the rectangle
                         (default (0, 0, 0) (black)).
                 fill (bool) -- whether or not to fill the rectangle with color
                         (default True).
-                outline (int) -- the thickness of the rectangle's outline,
+                line_width (int) -- the thickness of the rectangle's outline,
                         in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
+                line_color (3- or 4-tuple) -- the RGB(A) color of the
                         rectangle's outline (default 'color').
         """
         self.draw_surface.rectangle(x, y, width, height, **kwargs)
@@ -365,13 +365,13 @@ class SimpleSurface:
                 width (int) -- the width of the rounded rectangle.
                 height (int) -- the height of the rounded rectangle.
                 radius (int) -- the radius of the rectangle's corners.
-                color (3- or 4-tuple) -- the RGB(A) color of the rounded rectangle
+                fill_color (3- or 4-tuple) -- the RGB(A) color of the rounded rectangle
                         (default (0, 0, 0) (black)).
                 fill (bool) -- whether or not to fill the rounded rectangle with
                         color (default True).
-                outline (int) -- the thickness of the rounded rectangle's outline,
+                line_width (int) -- the thickness of the rounded rectangle's outline,
                         in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
+                line_color (3- or 4-tuple) -- the RGB(A) color of the
                         rounded rectangle's outline (default 'color').
         """
         self.draw_surface.rounded_rectangle(x, y, width, height, radius, **kwargs)
@@ -384,7 +384,7 @@ class SimpleSurface:
                 color (3- or 4-tuple) -- the RGB color of the background
                         (default (255, 255, 255) (white)).
         """
-        self.draw_surface.rectangle(0, 0, self.get_width(), self.get_height(), color=color)
+        self.draw_surface.rectangle(0, 0, self.get_width(), self.get_height(), fill_color=color)
 
     def set_color(self, color):
         """
@@ -432,7 +432,7 @@ class SimpleSurface:
                         padding will take up. If set to "fill", it will be the
                         largest width needed/allowed (default "fill").
                 min_font_size (int) -- the minimum font size, in pts (default 7).
-                outline (int) -- the text outline width, in pixels (default 0).
+                outline_width (int) -- the text outline width, in pixels (default 0).
                 outline_color (3- or 4-tuple) -- the color of the text outline
                         as an RGB(A) tuple (default (0, 0, 0) (black)).
                 padding (dict) -- the padding around the text, in pixels.

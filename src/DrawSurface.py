@@ -39,8 +39,8 @@ def polygon_wrapper(func):
         if self.fill:
             self.context.fill_preserve()
 
-        # Set the outline color and outline the polygon
-        self.calling_surface.set_color(self.outline_color)
+        # Set the outline fill_color and outline the polygon
+        self.calling_surface.set_color(self.line_color)
         self.context.stroke()
 
         # Restore the Context now that the polygon is drawn
@@ -62,29 +62,29 @@ class DrawSurface:
                 calling_surface (SimpleSurface) -- the surface to be drawn onto.
 
         Class attributes:
-                color (4-tuple) -- the RGBA color of the polygon.
-                fill (bool) -- whether or not the polygon is filled with color.
+                fill_color (4-tuple) -- the RGBA fill_color of the polygon.
+                fill (bool) -- whether or not the polygon is filled with fill_color.
                 line_cap (str) -- the pycairo rendering of the endpoint of a line.
                 line_join (str) -- the pycairo rendering for the vertex
                         connecting two joined lines.
-                outline (int) -- the thickness of the polygon's outline, in pixels.
-                outline_color (4-tuple) -- the RGBA color of the polygon's outline.
+                line_width (int) -- the thickness of the polygon's outline, in pixels.
+                line_color (4-tuple) -- the RGBA fill_color of the polygon's outline.
         """
         self.calling_surface = calling_surface
         self.context = self.calling_surface.context
 
-        self.color = None
+        self.fill_color = None
         self.fill = None
         self.line_cap = None
         self.line_join = None
-        self.outline = None
-        self.outline_color = None
+        self.line_width = None
+        self.line_color = None
 
     @polygon_wrapper
     def dot(self, x, y, radius=1, **kwargs):
         # Calculate the width and height of the inner section of the dot
-        width = radius * 2 - self.outline
-        height = radius * 2 - self.outline
+        width = radius * 2 - self.line_width
+        height = radius * 2 - self.line_width
 
         # Parse the x- and y-coordinates if they were sent in as strings.
         # The parsing methods return the top-left corner of the bounding box,
@@ -96,7 +96,7 @@ class DrawSurface:
 
         # Draw the dot by moving to the center and drawing a circle with the
         # given radius, accounting for the width of the outline.
-        self.context.arc(x, y, radius - self.outline / 2, 0, 2 * math.pi)
+        self.context.arc(x, y, radius - self.line_width / 2, 0, 2 * math.pi)
 
     @polygon_wrapper
     def ellipse(self, x, y, width, height, **kwargs):
@@ -118,11 +118,14 @@ class DrawSurface:
         # Initialize the shape's attributes
         self._init_attributes(**kwargs)
 
+        # The color is actually from line_color, not fill_color
+        # self.calling_surface.set_color(self.line_color)
+
         # Establish parameters not sent in. In this case we don't need these
         # affecting anything, so we're setting them all to 0.
         width = 0
         height = 0
-        self.outline = 0
+        self.line_width = 0
 
         # Parse the x and y coordinates, if need be
         x1, y1 = self._adjust_params(x1, y1, width, height)[0:2]
@@ -195,8 +198,8 @@ class DrawSurface:
         """
         # Adjust the width and height to account for half the outline
         # on both sides of the polygon (so a full outline in total)
-        width -= self.outline
-        height -= self.outline
+        width -= self.line_width
+        height -= self.line_width
 
         # Parse the x- and y-coordinates
         x = self._parse_x(x, width)
@@ -211,35 +214,32 @@ class DrawSurface:
         and set some of those attributes.
 
         Keyword arguments:
-                color (3- or 4-tuple) -- the RGB(A) color of the polygon
+                fill_color (3- or 4-tuple) -- the RGB(A) fill_color of the polygon
                         (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the polygon with color
+                fill (bool) -- whether or not to fill the polygon with fill_color
                         (default True).
                 line_cap (cairo.LINE_CAP) -- the cap at the end of the line
                         (default cairo.LINE_CAP_SQUARE).
                 line_join(cairo.LINE_JOIN) -- the rendering between two
                         joining lines (default cairo.LINE_JOIN_MITER).
-                line_width (int) -- the thickness of a line, in pixels
-                        (default 1).
-                outline (int) -- the thickness of the polygon's outline,
-                        in pixels (default 1).
-                outline_color (3- or 4-tuple) -- the RGB(A) color of the
-                        polygon's outline (default 'color').
+                line_width (int) -- the thickness of a line
+                    or polygon's outline, in pixels (default 1).
+                line_color (3- or 4-tuple) -- the RGB(A) fill_color of the
+                        polygon's outline (default 'fill_color').
         """
         # Initialize attributes based on keyword parameters
-        self.color = kwargs.get("color", (0, 0, 0))
+        self.fill_color = kwargs.get("fill_color", (0, 0, 0))
         self.fill = kwargs.get("fill", True)
         self.line_cap = kwargs.get("line_cap", cairo.LINE_CAP_SQUARE)
         self.line_join = kwargs.get("line_join", cairo.LINE_JOIN_MITER)
-        self.outline = kwargs.get("outline", 1)
-        self.outline_color = kwargs.get("outline_color", self.color)
-        self.outline = kwargs.get("line_width", self.outline)
+        self.line_width = kwargs.get("line_width", 1)
+        self.line_color = kwargs.get("line_color", self.fill_color)
 
         # Update the Context based on the attributes sent in
-        self.calling_surface.set_color(self.color)
+        self.calling_surface.set_color(self.fill_color)
         self.context.set_line_cap(self.line_cap)
         self.context.set_line_join(self.line_join)
-        self.context.set_line_width(self.outline)
+        self.context.set_line_width(self.line_width)
 
     def _parse_x(self, x, width=0):
         """
@@ -258,13 +258,13 @@ class DrawSurface:
 
         # Parse the x-coordinate, adjusting for any potential outline
         if x == "left":
-            x = self.outline / 2
+            x = self.line_width / 2
         elif x == "center":
             x = (self.calling_surface.get_width() - width) / 2
         elif x == "right":
-            x = self.calling_surface.get_width() - (width + self.outline / 2)
+            x = self.calling_surface.get_width() - (width + self.line_width / 2)
         else:
-            x += self.outline / 2
+            x += self.line_width / 2
 
         return x
 
@@ -285,12 +285,12 @@ class DrawSurface:
 
         # Parse the y-coordinate, adjusting for any potential outline
         if y == "top":
-            y = self.outline / 2
+            y = self.line_width / 2
         elif y == "center":
             y = (self.calling_surface.get_height() - height) / 2
         elif y == "bottom":
-            y = self.calling_surface.get_height() - (height + self.outline / 2)
+            y = self.calling_surface.get_height() - (height + self.line_width / 2)
         else:
-            y += self.outline / 2
+            y += self.line_width / 2
 
         return y

@@ -55,7 +55,7 @@ class TextSurface:
                 max_width (int) -- the maximum horizontal space the text and
                         padding will take up, in pixels.
                 min_font_size (int) -- the minimum font size, in pts.
-                outline (int) -- the text outline width, in pixels.
+                outline_width (int) -- the text outline width, in pixels.
                 outline_color (4-tuple) -- the color of the text outline as
                         an RGB(A) tuple.
                 padding (dict) -- the padding around the text, in pixels.
@@ -84,7 +84,7 @@ class TextSurface:
         self.max_width = None
         self.max_height = None
         self.min_font_size = None
-        self.outline = None
+        self.outline_width = None
         self.outline_color = None
         self.padding = None
 
@@ -147,7 +147,7 @@ class TextSurface:
 
         # Create the interior SimpleSurface to hold the text block
         self.interior_extended_surface = SimpleSurface(
-            int(self.text_width + self.outline), int(self.text_height + self.outline)
+            int(self.text_width + self.outline_width), int(self.text_height + self.outline_width)
         )
 
         # Write the text to the interior
@@ -523,7 +523,7 @@ class TextSurface:
         self.max_width = kwargs.get("max_width", "fill")
         self.max_height = kwargs.get("max_height", "fill")
         self.min_font_size = kwargs.get("min_font_size", 7)
-        self.outline = kwargs.get("outline", 0)
+        self.outline_width = kwargs.get("outline_width", 0)
         self.outline_color = kwargs.get("outline_color", (0, 0, 0))
 
         # Set the default padding and update it with whatever's sent in
@@ -563,7 +563,7 @@ class TextSurface:
         self.interior_extended_surface.set_color(self.outline_color)
         self.interior_extended_surface.context.move_to(x, y)
         self.interior_extended_surface.context.text_path(text)
-        self.interior_extended_surface.context.set_line_width(self.outline)
+        self.interior_extended_surface.context.set_line_width(self.outline_width)
         self.interior_extended_surface.context.stroke()
         self.interior_extended_surface.context.restore()
 
@@ -610,8 +610,8 @@ class TextSurface:
 
         # Reduce the max dimensions by the outline width as well, since the
         # outline straddles the edge of the text on all sides
-        self.max_width -= self.outline
-        self.max_height -= self.outline
+        self.max_width -= self.outline_width
+        self.max_height -= self.outline_width
 
     def _split_text_into_lines(self, text, font_size=None):
         """
@@ -699,7 +699,7 @@ class TextSurface:
 
         # Our first y-coordinate is the height of the top line's ascent,
         # plus half of the outline width
-        y = self.text_lines_metadata[0][2] + self.outline / 2
+        y = self.text_lines_metadata[0][2] + self.outline_width / 2
 
         for index, line in enumerate(self.text_lines):
             # Grab some needed attributes of the line
@@ -709,13 +709,13 @@ class TextSurface:
             # Set the initial x-position based on the text alignment.
             # If the text is justified, calculate the spacing between words.
             if self.alignment == "left":
-                x = -x_bearing + self.outline / 2
+                x = -x_bearing + self.outline_width / 2
             elif self.alignment == "center":
-                x = (self.text_width - line_width) / 2 - x_bearing + self.outline / 2
+                x = (self.text_width - line_width) / 2 - x_bearing + self.outline_width / 2
             elif self.alignment == "right":
-                x = (self.text_width - line_width) - x_bearing + self.outline / 2
+                x = (self.text_width - line_width) - x_bearing + self.outline_width / 2
             elif self.alignment == "justified":
-                x = -x_bearing + self.outline / 2
+                x = -x_bearing + self.outline_width / 2
 
                 # Get the width of the text without spaces by summing up
                 # the width of each word.
@@ -727,7 +727,7 @@ class TextSurface:
 
                 # Set the line width to be the whole line, accounting for the
                 # outline
-                line_width = self.text_width - self.outline
+                line_width = self.text_width - self.outline_width
 
                 # If we're at the last line of our text, or at the last line
                 # in a paragraph, and we don't want to justify it, set the line
