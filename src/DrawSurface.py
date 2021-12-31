@@ -119,7 +119,7 @@ class DrawSurface:
         self._init_attributes(**kwargs)
 
         # The color is actually from line_color, not fill_color
-        # self.calling_surface.set_color(self.line_color)
+        self.calling_surface.set_color(self.line_color)
 
         # Establish parameters not sent in. In this case we don't need these
         # affecting anything, so we're setting them all to 0.
