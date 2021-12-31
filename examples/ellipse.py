@@ -4,7 +4,7 @@ from src.SimpleSurface import SimpleSurface
 
 # Create the SimpleSurface object and set the background to yellow
 surface = SimpleSurface(600, 800)
-surface.set_background((255, 255, 0))
+surface.set_background()
 
 font = "examples/fonts/arial.ttf"
 font_size = 16
@@ -62,7 +62,7 @@ surface.ellipse("center", "center", 250, 250, fill_color=(50, 205, 50, 128), lin
 # Draw an empty ellipse measuring 200x250 pixels with an outline 20 pixels thick
 surface.ellipse(450, 590, 120, 200, fill=False, line_width=20)
 surface.write(
-    "ellipse(450, 590, 120, 200, fill=False, line_width=20)", "right", 570, font=font, font_size=font_size
+    "ellipse(450, 590, 120, 200, fill=False, line_width=20)", "right", 570, font=font, font_size=font_size, padding={"right": 10},
 )
 
 # Draw a pink ellipse at ("left", "bottom") that fills in the entire

@@ -49,10 +49,10 @@ surface.write(
 
 # Draw a blue dot with a radius of 20 pixels
 y += 50
-surface.dot(x="left", y=y, radius=20, fill_color=(0, 0, 255))
+surface.dot(x="right", y=y, radius=20, fill_color=(0, 0, 255))
 surface.write(
-    f'dot(x="left", y={y}, radius=20, fill_color=(0, 0, 255))',
-    60,
+    f'dot(x="right", y={y}, radius=20, fill_color=(0, 0, 255))',
+    180,
     y - font_size / 2,
     font=font,
     font_size=font_size,
@@ -78,7 +78,7 @@ surface.write(
 # Draw a pink dot at ("right", "bottom") with a radius of 100 pixels and a
 # purple outline that is 20 pixels thick
 surface.dot(
-    x="right",
+    x="left",
     y="bottom",
     radius=100,
     fill_color=(255, 192, 203),
@@ -86,11 +86,12 @@ surface.dot(
     line_color=(128, 0, 128),
 )
 a, b = surface.write(
-    'dot(\nx="right",\ny="bottom",\nradius=100,\nfill_color=(255, 192, 203),\nline_width=20,\nline_color=(128, 0, 128),\n)',
+    'dot(\nx="left",\ny="bottom",\nradius=100,\nfill_color=(255, 192, 203),\nline_width=20,\nline_color=(128, 0, 128),\n)',
     "center",
     "bottom",
     font=font,
     font_size=font_size,
+    padding={"bottom": 20},
 )
 
 # Write our drawing to a PNG file
