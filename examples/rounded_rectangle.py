@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Examples of various ways to draw an rounded_rectangle."""
+"""Examples of various ways to draw a rounded_rectangle."""
 from src.SimpleSurface import SimpleSurface
 
 # Create the SimpleSurface object and set the background to yellow

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Examples of various ways to draw an rectangle."""
+"""Examples of various ways to draw a rectangle."""
 from src.SimpleSurface import SimpleSurface
 
 # Create the SimpleSurface object and set the background to yellow

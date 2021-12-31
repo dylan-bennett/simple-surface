@@ -56,7 +56,7 @@ text = (
     "The boxes drawn around all the examples represent the bounding boxes "
     "containing the text and padding. The width and height of a bounding "
     "box are returned and can be used to draw bounding boxes or "
-    "dynamically stack text blocks, like in the example to the right."
+    "dynamically stack text blocks, like in the examples to the right."
 )
 bb_width, bb_height = surface.write(
     text,
