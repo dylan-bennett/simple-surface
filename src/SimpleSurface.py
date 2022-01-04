@@ -386,20 +386,6 @@ class SimpleSurface:
         """
         self.draw_surface.rectangle(0, 0, self.get_width(), self.get_height(), fill_color=color)
 
-    def set_color(self, color):
-        """
-        Set the color of a Context to an RGB or RGBA tuple (range 0-255).
-
-        Keyword arguments:
-                color (3- or 4-tuple) -- the RGB(A) color to set.
-        """
-        assert len(color) in [3, 4], "parameter 'color' must be a 3- or 4-tuple"
-
-        # Grab the colours and set the alpha to opaque if it's not sent in
-        r, g, b, *a = color
-        a = a[0] if len(a) > 0 else 255
-        self.context.set_source_rgba(r / 255, g / 255, b / 255, a / 255)
-
     def write(self, text, x, y, font, **kwargs):
         """
         Write text at given coordinates, with given attributes. Return
@@ -482,3 +468,17 @@ class SimpleSurface:
                 target (str) -- the filepath of the PNG file to save to.
         """
         self.surface.write_to_png(target)
+
+    def _set_color(self, color):
+        """
+        Set the color of a Context to an RGB or RGBA tuple (range 0-255).
+
+        Keyword arguments:
+                color (3- or 4-tuple) -- the RGB(A) color to set.
+        """
+        assert len(color) in [3, 4], "parameter 'color' must be a 3- or 4-tuple"
+
+        # Grab the colours and set the alpha to opaque if it's not sent in
+        r, g, b, *a = color
+        a = a[0] if len(a) > 0 else 255
+        self.context.set_source_rgba(r / 255, g / 255, b / 255, a / 255)

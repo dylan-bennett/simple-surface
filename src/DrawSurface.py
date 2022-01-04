@@ -40,7 +40,7 @@ def polygon_wrapper(func):
             self.context.fill_preserve()
 
         # Set the outline fill_color and outline the polygon
-        self.calling_surface.set_color(self.line_color)
+        self.calling_surface._set_color(self.line_color)
         self.context.stroke()
 
         # Restore the Context now that the polygon is drawn
@@ -119,7 +119,7 @@ class DrawSurface:
         self._init_attributes(**kwargs)
 
         # The color is actually from line_color, not fill_color
-        self.calling_surface.set_color(self.line_color)
+        self.calling_surface._set_color(self.line_color)
 
         # Establish parameters not sent in. In this case we don't need these
         # affecting anything, so we're setting them all to 0.
@@ -236,7 +236,7 @@ class DrawSurface:
         self.line_color = kwargs.get("line_color", self.fill_color)
 
         # Update the Context based on the attributes sent in
-        self.calling_surface.set_color(self.fill_color)
+        self.calling_surface._set_color(self.fill_color)
         self.context.set_line_cap(self.line_cap)
         self.context.set_line_join(self.line_join)
         self.context.set_line_width(self.line_width)

@@ -560,7 +560,7 @@ class TextSurface:
         """
         # Outline the text by stroking along it
         self.interior_extended_surface.context.save()
-        self.interior_extended_surface.set_color(self.outline_color)
+        self.interior_extended_surface._set_color(self.outline_color)
         self.interior_extended_surface.context.move_to(x, y)
         self.interior_extended_surface.context.text_path(text)
         self.interior_extended_surface.context.set_line_width(self.outline_width)
@@ -695,7 +695,7 @@ class TextSurface:
         # Set the text attributes to the interior's Context
         self.interior_extended_surface.context.set_font_face(self.font_face)
         self.interior_extended_surface.context.set_font_size(self.font_size)
-        self.interior_extended_surface.set_color(self.color)
+        self.interior_extended_surface._set_color(self.color)
 
         # Our first y-coordinate is the height of the top line's ascent,
         # plus half of the outline width
