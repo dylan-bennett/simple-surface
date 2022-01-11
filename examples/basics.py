@@ -1,66 +1,98 @@
 #!/usr/bin/env python3
 """Examples of basic commands done using SimpleSurface."""
-import random
-
-from PIL import ImageDraw
-from PIL import ImageFont
+import math
 
 from src.SimpleSurface import SimpleSurface
 
+font = "examples/fonts/arial.ttf"
+font_size = 16
 
-def random_rectangles(isp, num_rectangles):
-    """Draw rectangles randomly all over the SimpleSurface object."""
-    for _ in range(num_rectangles):
-        width = random.randint(0, isp.get_width() / 2)
-        height = random.randint(0, isp.get_height() / 2)
-        x = random.randint(0, isp.get_width() - width)
-        y = random.randint(0, isp.get_height() - height)
-        color = random.choices(range(256), k=4)
-        isp.rectangle(x, y, width, height, color=color)
-
-
-# Create an SimpleSurface object, sized 600x800 pixels
+# Create a second SimpleSurface
 surface = SimpleSurface(600, 800)
+surface.set_background()
 
-# Set the background to red
-surface.set_background((255, 0, 0))
+# Write a title
+title_width, title_height = surface.write(
+    "The Basics", "center", "top", font=font, font_size=30, padding={"top": 10}
+)
 
-# Draw 10 rectangles randomly placed on it
-random_rectangles(surface, 10)
+# Describe the basics of SimpleSurface at the top
+y = title_height + 10
+_, text_height = surface.write(
+    (
+        "Welcome to SimpleSurface! This package is an attempt to complement "
+        "PyCairo's functionality by performing a lot of the heavy lifting "
+        "needed for non-native functionality.\n\n"
+        "In this example there are common tasks showcased, namely cropping "
+        "and pasting a Surface, as well as additional functions like outlining "
+        "a SimpleSurface, drawing gridlines, and retrieving metadata.\n\n"
+        "Check out the other examples to see what else SimpleSurface has to "
+        "offer!"
+    ),
+    "center",
+    y,
+    font,
+    font_size=font_size,
+    alignment="center",
+    padding={"top": 10, "left": 10, "right": 10},
+)
+y += text_height + 10
+surface.line("left", y, "right", y)
+y += 10
 
-# Crop it to a size 400x500 pixels, starting at (50, 50)
-surface.crop(50, 50, 400, 500)
+# Create a SimpleSurface
+surface2 = SimpleSurface(600, 800)
 
-# Create a second SimpleSurface object, sized 100x200 pixels
-surface2 = SimpleSurface(100, 200)
-
-# Set the background to yellow
+# Set the background colour
 surface2.set_background((255, 255, 0))
 
-# Draw 5 rectangles randomly placed on it
-random_rectangles(surface2, 5)
+# Cover the entire thing with text
+surface2.write(
+    (
+        "This is text to fill the entire page and show off the crop function."
+        "We're going to crop out the middle of this text and then paste it "
+        "onto another SimpleSurface in various ways."
+    ),
+    0,
+    0,
+    font=font,
+)
 
-# Outline it with a 5-pixel outline
-surface2.outline(line_width=5)
+# Crop it
+surface2.crop(200, 200, 200, 200)
 
-# Paste it into the center of the first SimpleSurface.
-surface.paste(surface2, "center", "center")
+# Paste the cropped version normally
+surface.paste(surface2, 50, y + font_size)
 
-# Draw gridlines on the first SimpleSurface
-# (outline, plus vertical/horizontal center lines)
-surface.gridlines()
+# Paste the cropped version scaled to a particular width and height (plus gridlines)
+surface2.gridlines()
+surface.paste(surface2, 20, 515, width=267, height=135)
 
-# Convert it to a PIL object
-image = surface.to_pil()
+# Paste the cropped version rotated 45 degrees (plus an outline)
+surface2.outline(color=(0, 0, 255), width=5)
+surface.paste(surface2, 450, 250, rotate=math.pi / 4)
 
-# Write "Hello World" in black 25 pt font at (50, 50) using PIL commands
-draw = ImageDraw.Draw(image)
-font = ImageFont.truetype("fonts/arial.ttf", 25)
-draw.text((50, 50), "Hello World", (0, 0, 0), font=font)
+# Paste the cropped version scaled by a factor of 0.5 and 1.5
+surface.paste(surface2, "right", "bottom", scaling="ratio", width=0.5, height=1.5)
 
-# Convert the image back to an SimpleSurface object
-surface.from_pil(image)
+# Write out the width and height and format of this SimpleSurface
+y = 660
+surface.write(
+    (
+        f"Info about the cropped SimpleSurface\n"
+        f"width={surface2.get_width()}\n"
+        f"height={surface2.get_height()}\n"
+        f"format={surface2.get_format()}"
+    ),
+    10,
+    y,
+    font,
+    max_height=surface.get_height() - y,
+    max_width=surface.get_width() - surface2.get_width() * 0.5 - 10,
+)
 
-# Save the result as a PNG file and a PDF file
+# Save to PNG
 surface.write_to_png("example_basics.png")
-surface.write_to_pdf("example_basics.pdf")
+
+# Save to PDF
+surface.write_to_png("example_basics.pdf")
