@@ -3,7 +3,9 @@ A simpler version of Pycairo's ImageSurface
 
 This package is an attempt to complement PyCairo's functionality by performing a lot of the heavy lifting needed for non-native functionality. A lot of the work is done behind the scenes, saving your keyboard undue wear and tear.
 
-## Blue Ellipse Example using PyCairo
+## Comparison Example
+
+### Blue Ellipse using PyCairo
 ```
 import cairo
 import math
@@ -34,7 +36,7 @@ pdf_context.paint()
 pdf_context.show_page()
 ```
 
-## Blue Ellipse Example using SimpleSurface
+### Blue Ellipse using SimpleSurface
 ```
 import SimpleSurface
 
