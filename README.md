@@ -38,7 +38,7 @@ pdf_context.show_page()
 
 ### Blue Ellipse using SimpleSurface
 ```
-import SimpleSurface
+from SimpleSurface import SimpleSurface
 
 # Create 600x800 Surface
 surface = SimpleSurface(600, 800)
