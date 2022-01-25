@@ -1,1 +1,6 @@
 __pycache__/
+dist/
+env-*/
+*.egg-info/
+pyproject.toml
+setup.cfg
