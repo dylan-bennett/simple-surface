@@ -11,7 +11,7 @@ from .TextSurface import TextSurface
 class SimpleSurface:
     """Extend the functionality of the cairo.ImageSurface class."""
 
-    def __init__(self, width, height, image_format=cairo.FORMAT_ARGB32):
+    def __init__(self, width, height, format=cairo.FORMAT_ARGB32):
         """
         Initialize the SimpleSurface object.
 
@@ -27,7 +27,7 @@ class SimpleSurface:
                 text_surface (TextSurface) -- the TextSurface object used to write text.
                 draw_surface (DrawSurface) -- the DrawSurface object used to draw things.
         """
-        self.surface = cairo.ImageSurface(image_format, width, height)
+        self.surface = cairo.ImageSurface(format, width, height)
         self.context = cairo.Context(self.surface)
         self.text_surface = TextSurface(self)
         self.draw_surface = DrawSurface(self)
@@ -95,7 +95,7 @@ class SimpleSurface:
                 line_width (int) -- the thickness of the dot's outline,
                         in pixels (default 1).
                 line_color (3- or 4-tuple) -- the RGB(A) color of the
-                        dot's outline (default 'color').
+                        dot's outline (default 'fill_color').
         """
         self.draw_surface.dot(x, y, radius, **kwargs)
 
@@ -117,7 +117,7 @@ class SimpleSurface:
                 line_width (int) -- the thickness of the ellipse's outline,
                         in pixels (default 1).
                 line_color (3- or 4-tuple) -- the RGB(A) color of the
-                        ellipse's outline (default 'color').
+                        ellipse's outline (default 'fill_color').
         """
         self.draw_surface.ellipse(x, y, width, height, **kwargs)
 
@@ -138,7 +138,7 @@ class SimpleSurface:
         Outline the surface, and draw vertical and horizontal center lines.
 
         Keyword arguments:
-                color (3- or 4-tuple) -- the color of the gridlines
+                color (3- or 4-tuple) -- the RGB(A) color of the gridlines
                         (default (0, 0, 0) (black)).
         """
         self.outline(color=color)
@@ -160,9 +160,9 @@ class SimpleSurface:
                 y2 (int/str) -- the y-coordinate of the second point.
                 line_color (3- or 4-tuple) -- the RGB(A) color of the line
                         (default (0, 0, 0) (black)).
-                line_cap (cairo.LINE_CAP) -- the cap at the end of the line
+                line_cap (cairo.LINE_CAP) -- the pycairo cap at the end of the line
                         (default cairo.LINE_CAP_SQUARE).
-                line_width (int) -- the thickness of the line, in pixels.
+                line_width (int) -- the thickness of the line, in pixels (default 1).
         """
         self.draw_surface.line(x1, y1, x2, y2, **kwargs)
 
@@ -317,18 +317,18 @@ class SimpleSurface:
         Draw a polygon that connects a series of (x, y)-coordinates.
 
         Keyword arguments:
-                points (list) -- a list of xy-coordinates as tuples,
+                points (list) -- a list of (x, y)-coordinates as tuples,
                         indicating the vertices of the polygon.
                 fill_color (3- or 4-tuple) -- the RGB(A) color of the polygon
                         (default (0, 0, 0) (black)).
                 fill (bool) -- whether or not to fill the polygon with color
                         (default True).
-                line_join(cairo.LINE_JOIN) -- the rendering between two
+                line_join (cairo.LINE_JOIN) -- the rendering between two
                         joining lines (default cairo.LINE_JOIN_MITER).
                 line_width (int) -- the thickness of the polygon's outline,
                         in pixels (default 1).
                 line_color (3- or 4-tuple) -- the RGB(A) color of the
-                        polygon's outline (default 'color').
+                        polygon's outline (default 'fill_color').
         """
         self.draw_surface.polygon(points, **kwargs)
 
@@ -349,7 +349,7 @@ class SimpleSurface:
                 line_width (int) -- the thickness of the rectangle's outline,
                         in pixels (default 1).
                 line_color (3- or 4-tuple) -- the RGB(A) color of the
-                        rectangle's outline (default 'color').
+                        rectangle's outline (default 'fill_color').
         """
         self.draw_surface.rectangle(x, y, width, height, **kwargs)
 
@@ -372,7 +372,7 @@ class SimpleSurface:
                 line_width (int) -- the thickness of the rounded rectangle's outline,
                         in pixels (default 1).
                 line_color (3- or 4-tuple) -- the RGB(A) color of the
-                        rounded rectangle's outline (default 'color').
+                        rounded rectangle's outline (default 'fill_color').
         """
         self.draw_surface.rounded_rectangle(x, y, width, height, radius, **kwargs)
 
@@ -381,7 +381,7 @@ class SimpleSurface:
         Set the surface background to a given color.
 
         Keyword arguments:
-                color (3- or 4-tuple) -- the RGB color of the background
+                color (3- or 4-tuple) -- the RGB(A) color of the background
                         (default (255, 255, 255) (white)).
         """
         self.draw_surface.rectangle(0, 0, self.get_width(), self.get_height(), fill_color=color)
@@ -429,7 +429,7 @@ class SimpleSurface:
 
     def write_to_pdf(self, target, dpi=300):
         """
-        Write our Surface to a PDF file.
+        Write the SimpleSurface to a PDF file.
 
         Keyword arguments:
                 target (str) -- the filepath of the PDF file to save to.
@@ -462,7 +462,7 @@ class SimpleSurface:
 
     def write_to_png(self, target):
         """
-        Write our surface object to a PNG file.
+        Write the SimpleSurface to a PNG file.
 
         Keyword arguments:
                 target (str) -- the filepath of the PNG file to save to.
