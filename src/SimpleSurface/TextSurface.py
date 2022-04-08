@@ -292,7 +292,7 @@ class TextSurface:
 
     def _create_font_face(self, face_index=0, load_options=0):
         """
-        Return a PyCairo font face, given a font file.
+        Return a Pycairo font face, given a font file.
 
         NOTE: I did not write this method, and I actually do not really know
         how it works. The original source code can be found at:
@@ -334,7 +334,7 @@ class TextSurface:
             raise RuntimeError(f"Error {status} initializing FreeType library.")
 
         class PycairoContext(ct.Structure):
-            """PyCairo Context"""
+            """Pycairo Context"""
 
             _fields_ = [
                 ("PyObject_HEAD", ct.c_byte * object.__basicsize__),

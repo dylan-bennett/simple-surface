@@ -21,7 +21,7 @@ y = title_height + 10
 _, text_height = surface.write(
     (
         "Welcome to SimpleSurface! This package is an attempt to complement "
-        "PyCairo's functionality by performing a lot of the heavy lifting "
+        "Pycairo's functionality by performing a lot of the heavy lifting "
         "needed for non-native functionality.\n\n"
         "In this example there are common tasks showcased, namely cropping "
         "and pasting a Surface, as well as additional functions like outlining "
