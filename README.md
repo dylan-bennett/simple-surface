@@ -50,6 +50,9 @@ simple_surface.ellipse(50, 50, 150, 200, fill_color=(0, 0, 255))
 simple_surface.write_to_pdf("example.pdf")
 ```
 
+## Installation
+To install, simply open a terminal and type `pip install SimpleSurface`
+
 ## Functions
 ### \_\_init\_\_
 `SimpleSurface(width, height [, format])`
@@ -283,8 +286,38 @@ Write the SimpleSurface to a PNG file.
 Keyword arguments:
 * `target` -- the filepath of the PNG file to save to.
 
+## A Note About Shape Outlines
+When stroking a shape with Pycairo, the stroke line drawn straddles the outline of the shape. That means that the resulting size of the shape may be different than what's intended.
+
+For example: a 50x50 square with an outline of 10 pixels would actually result in a shape 60x60 pixels in size.
+
+In SimpleSurface, the thickness of the stroke line is accounted for, so the resulting shape will always fit within the width and height specified.
+
 ## Writing Text
+SimpleSurface provides some pretty powerful ways of writing text. Here are just a few things you can do when writing text with SimpleSurface:
+* Left-align, center-align, right-align, and justify text.
+* Colour the text, outline the text, and give the outline its own colour.
+* Specify padding around the text (in pixels).
+* Send in any text along with the width (`max_width`) and height (`max_height`) you want it to occupy, and SimpleSurface will automatically fill that space as much as possible.
+* Tell SimpleSurface to leave the text as one line (set `break_lines` to `False`) to get the largest text possible within one line, say for a title.
+* Specify the font.
+* Specify the font size.
+
+Check out the examples to see some code.
 
 ## Positioning
+The (x, y) positions in SimpleSurface will accept numbers as well as strings. For the `x` position, it will accept `left`, `center`, and `right`. For the `y` position, it will accept `top`, `center`, and `bottom`. These will position things based on the SimpleSurface you're drawing to.
+
+Check out the examples folder to see examples of how this is done.
 
 ## Want to do something else?
+SimpleSurface is meant to provide easy access to some much-needed functionality within Pycairo. If you want to do anything more Pycairo-specific, each SimpleSurface object contains an ImageSurface (`surface`) and Context (`context`) that you can access directly:
+
+```
+import cairo
+from SimpleSurface import SimpleSurface
+
+simple_surface = SimpleSurface(600, 800)
+simple_surface.context.set_line_width(5)
+simple_surface.surface.write_to_png("example.png")
+```
