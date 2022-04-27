@@ -135,22 +135,26 @@ class TextSurface:
             self.font_size = self._calculate_max_font_size(text)
 
         # If we can't determine a font size, then exit out
-        assert (
-            self.font_size >= 0
-        ), f"Cannot write text given these constraints: {text}, {x}, {y}, {font}, {kwargs}"
+        assert self.font_size >= 0, (
+            f"Cannot write text given these constraints: "
+            f"{text}, {x}, {y}, {font}, {kwargs}"
+        )
 
         # Now that we have a font size, split the text up into separate
         # lines
         self.text_lines = self._split_text_into_lines(text)
 
         # Get the width, height, and metadata of each line of text
-        self.text_width, self.text_height, self.text_lines_metadata = self._get_text_dimensions(
-            self.text_lines
-        )
+        (
+            self.text_width,
+            self.text_height,
+            self.text_lines_metadata,
+        ) = self._get_text_dimensions(self.text_lines)
 
         # Create the interior SimpleSurface to hold the text block
         self.interior_extended_surface = SimpleSurface(
-            int(self.text_width + self.outline_width), int(self.text_height + self.outline_width)
+            int(self.text_width + self.outline_width),
+            int(self.text_height + self.outline_width),
         )
 
         # Write the text to the interior
@@ -174,7 +178,9 @@ class TextSurface:
         # Paste the interior surface to the exterior based on the
         # padding
         self.exterior_extended_surface.paste(
-            self.interior_extended_surface, self.padding["left"], self.padding["top"]
+            self.interior_extended_surface,
+            self.padding["left"],
+            self.padding["top"],
         )
 
         # Make sure the x and y coordinates are set to actual numbers
@@ -245,7 +251,9 @@ class TextSurface:
         max_font_size = int(self.max_height * 3)
 
         # Make sure the minimum font size is not too big
-        text_width, text_height = self._dims_at_font_size(text, self.min_font_size)
+        text_width, text_height = self._dims_at_font_size(
+            text, self.min_font_size
+        )
 
         assert (
             text_width <= self.max_width and text_height <= self.max_height
@@ -271,7 +279,9 @@ class TextSurface:
             mid_font_size = (max_font_size + min_font_size) // 2
 
             # Get the text dimensions at the mid font size
-            text_width, text_height = self._dims_at_font_size(text, mid_font_size)
+            text_width, text_height = self._dims_at_font_size(
+                text, mid_font_size
+            )
 
             # If the text is too big in either dimension,
             # then scale it down. Otherwise, scale it up.
@@ -285,7 +295,9 @@ class TextSurface:
         font_size = max_font_size - 1
         for font_size_inc in range(min_font_size, max_font_size):
             # Get the text dimensions at the attempted font size
-            text_width, text_height = self._dims_at_font_size(text, font_size_inc)
+            text_width, text_height = self._dims_at_font_size(
+                text, font_size_inc
+            )
 
             # As soon as one or both dimensions gets too big,
             # choose the font size just below it
@@ -320,9 +332,15 @@ class TextSurface:
         _freetype_so = ct.CDLL("libfreetype.so.6")
         _cairo_so = ct.CDLL("libcairo.so.2")
         _cairo_so.cairo_ft_font_face_create_for_ft_face.restype = ct.c_void_p
-        _cairo_so.cairo_ft_font_face_create_for_ft_face.argtypes = [ct.c_void_p, ct.c_int]
+        _cairo_so.cairo_ft_font_face_create_for_ft_face.argtypes = [
+            ct.c_void_p,
+            ct.c_int,
+        ]
         _cairo_so.cairo_font_face_get_user_data.restype = ct.c_void_p
-        _cairo_so.cairo_font_face_get_user_data.argtypes = (ct.c_void_p, ct.c_void_p)
+        _cairo_so.cairo_font_face_get_user_data.argtypes = (
+            ct.c_void_p,
+            ct.c_void_p,
+        )
         _cairo_so.cairo_font_face_set_user_data.argtypes = (
             ct.c_void_p,
             ct.c_void_p,
@@ -356,16 +374,25 @@ class TextSurface:
         try:
             # load FreeType face
             status = _freetype_so.FT_New_Face(
-                _ft_lib, self.font.encode("utf-8"), face_index, ct.byref(ft_face)
+                _ft_lib,
+                self.font.encode("utf-8"),
+                face_index,
+                ct.byref(ft_face),
             )
             if status != ft_err_ok:
-                raise RuntimeError(f"Error {status} creating FreeType font face for {self.font}")
+                raise RuntimeError(
+                    f"Error {status} creating FreeType fontface for {self.font}"
+                )
 
             # create Cairo font face for freetype face
-            cr_face = _cairo_so.cairo_ft_font_face_create_for_ft_face(ft_face, load_options)
+            cr_face = _cairo_so.cairo_ft_font_face_create_for_ft_face(
+                ft_face, load_options
+            )
             status = _cairo_so.cairo_font_face_status(cr_face)
             if status != cairo_status_success:
-                raise RuntimeError(f"Error {status} creating cairo font face for {self.font}")
+                raise RuntimeError(
+                    f"Error {status} creating cairo font face for {self.font}"
+                )
 
             # Problem: Cairo doesn't know to call FT_Done_Face when its
             # font_face object is destroyed, so we have to do that for
@@ -377,12 +404,22 @@ class TextSurface:
             # or not is actually unnecessary in our situation, because
             # each call to FT_New_Face will return a new FT Face, but we
             # include it here to show how to handle the general case.
-            if _cairo_so.cairo_font_face_get_user_data(cr_face, ct.byref(_ft_destroy_key)) is None:
+            if (
+                _cairo_so.cairo_font_face_get_user_data(
+                    cr_face, ct.byref(_ft_destroy_key)
+                )
+                is None
+            ):
                 status = _cairo_so.cairo_font_face_set_user_data(
-                    cr_face, ct.byref(_ft_destroy_key), ft_face, _freetype_so.FT_Done_Face
+                    cr_face,
+                    ct.byref(_ft_destroy_key),
+                    ft_face,
+                    _freetype_so.FT_Done_Face,
                 )
                 if status != cairo_status_success:
-                    raise RuntimeError(f"Error {status} doing user_data dance for {self.font}")
+                    raise RuntimeError(
+                        f"Error {status} doing user_data dance for {self.font}"
+                    )
                 ft_face = None  # Cairo has stolen my reference
 
             # set Cairo font face into Cairo context
@@ -391,7 +428,9 @@ class TextSurface:
             _cairo_so.cairo_set_font_face(cairo_t, cr_face)
             status = _cairo_so.cairo_font_face_status(cairo_t)
             if status != cairo_status_success:
-                raise RuntimeError(f"Error {status} creating cairo font face for {self.font}")
+                raise RuntimeError(
+                    f"Error {status} creating cairo font face for {self.font}"
+                )
 
         finally:
             _cairo_so.cairo_font_face_destroy(cr_face)
@@ -440,7 +479,9 @@ class TextSurface:
         self.calling_surface.context.set_font_size(font_size)
 
         # Calculate the maximum height of a line of text
-        font_ascent, font_descent = self.calling_surface.context.font_extents()[0:2]
+        font_ascent, font_descent = self.calling_surface.context.font_extents()[
+            0:2
+        ]
         self.full_line_height = font_ascent + font_descent
 
         # Initialize what we'll be returning
@@ -454,9 +495,12 @@ class TextSurface:
         # measures down to the bottom of the lowest letter's descent.
         for index, line in enumerate(lines):
             # Grab the text extents of the line of text
-            x_bearing, y_bearing, width, height = self.calling_surface.context.text_extents(line)[
-                0:4
-            ]
+            (
+                x_bearing,
+                y_bearing,
+                width,
+                height,
+            ) = self.calling_surface.context.text_extents(line)[0:4]
 
             # Set the line ascent and descent equal to those of the font
             line_ascent = font_ascent
@@ -502,7 +546,9 @@ class TextSurface:
         # Note that we aren't including space below the bottom line, and
         # that we need to remove the height of the text itself to just
         # give us the space between the lines.
-        line_spacing_height = (len(lines) - 1) * (self.line_spacing - 1) * self.full_line_height
+        line_spacing_height = (
+            (len(lines) - 1) * (self.line_spacing - 1) * self.full_line_height
+        )
 
         # Add the line spacing height to the full height of the text
         # block
@@ -550,9 +596,12 @@ class TextSurface:
             f"parameter 'alignment' cannot be '{self.alignment}', must be "
             "one of: 'left', 'right', 'center', 'justified'"
         )
-        padding_keys_good = all(pad in ("top", "right", "bottom", "left") for pad in padding)
+        padding_keys_good = all(
+            pad in ("top", "right", "bottom", "left") for pad in padding
+        )
         assert padding_keys_good, (
-            "All keys in 'padding' must be one of: 'top', 'right', 'bottom', " "'left'"
+            "All keys in 'padding' must be one of: 'top', 'right', 'bottom', "
+            "'left'"
         )
         if isinstance(self.font_size, str):
             assert self.font_size == "fill", (
@@ -574,7 +623,9 @@ class TextSurface:
         self.interior_extended_surface._set_color(self.outline_color)
         self.interior_extended_surface.context.move_to(x, y)
         self.interior_extended_surface.context.text_path(text)
-        self.interior_extended_surface.context.set_line_width(self.outline_width)
+        self.interior_extended_surface.context.set_line_width(
+            self.outline_width
+        )
         self.interior_extended_surface.context.stroke()
         self.interior_extended_surface.context.restore()
 
@@ -661,15 +712,19 @@ class TextSurface:
             # the split. This will tell us if we can put this word at
             # the end of the current line or if we need to put it on its
             # own line.
-            line_width = self._get_text_dimensions([" ".join(line + [split_words[0]])], font_size)[
-                0
-            ]
+            line_width = self._get_text_dimensions(
+                [" ".join(line + [split_words[0]])], font_size
+            )[0]
 
             # If it doesn't fit, flush the current line to the list of
             # lines. Only do this if we already have at least one word
             # in the line. Also only do this if we want long lines
             # broken up.
-            if self.break_lines and line_width > self.max_width and len(line) > 0:
+            if (
+                self.break_lines
+                and line_width > self.max_width
+                and len(line) > 0
+            ):
                 lines.append(" ".join(line))
                 line = []
 
@@ -729,9 +784,17 @@ class TextSurface:
             if self.alignment == "left":
                 x = -x_bearing + self.outline_width / 2
             elif self.alignment == "center":
-                x = (self.text_width - line_width) / 2 - x_bearing + self.outline_width / 2
+                x = (
+                    (self.text_width - line_width) / 2
+                    - x_bearing
+                    + self.outline_width / 2
+                )
             elif self.alignment == "right":
-                x = (self.text_width - line_width) - x_bearing + self.outline_width / 2
+                x = (
+                    (self.text_width - line_width)
+                    - x_bearing
+                    + self.outline_width / 2
+                )
             elif self.alignment == "justified":
                 x = -x_bearing + self.outline_width / 2
 
@@ -753,14 +816,19 @@ class TextSurface:
                 # set the line width back to what it was
                 if (
                     index == len(self.text_lines) - 1
-                    or (index < len(self.text_lines) - 1 and len(self.text_lines[index + 1]) == 0)
+                    or (
+                        index < len(self.text_lines) - 1
+                        and len(self.text_lines[index + 1]) == 0
+                    )
                 ) and not self.justify_last_line:
                     line_width = self.text_lines_metadata[index][0]
 
                 # Divide the difference in widths by the number of
                 # spaces to get the new space width. If there's only one
                 # word on the line, then this doesn't matter
-                space_width = ((line_width - no_spaces_width)) / max((len(line.split()) - 1), 1)
+                space_width = ((line_width - no_spaces_width)) / max(
+                    (len(line.split()) - 1), 1
+                )
 
             # If the text is justified, write the line word by word,
             # using custom spacing
