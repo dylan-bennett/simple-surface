@@ -17,7 +17,7 @@ def polygon_wrapper(func):
     attributes before and after creating the polygon.
 
     Keyword arguments:
-            func (function) -- the function to draw the polygon.
+        func (function) -- the function to draw the polygon.
     """
 
     @functools.wraps(func)
@@ -59,16 +59,21 @@ class DrawSurface:
         Initialize the DrawSurface object.
 
         Keyword arguments:
-                calling_surface (SimpleSurface) -- the surface to be drawn onto.
+            calling_surface (SimpleSurface) -- the surface to be drawn
+                onto.
 
         Class attributes:
-                fill_color (4-tuple) -- the RGBA fill_color of the polygon.
-                fill (bool) -- whether or not the polygon is filled with fill_color.
-                line_cap (str) -- the pycairo rendering of the endpoint of a line.
-                line_join (str) -- the pycairo rendering for the vertex
-                        connecting two joined lines.
-                line_width (int) -- the thickness of the polygon's outline, in pixels.
-                line_color (4-tuple) -- the RGBA fill_color of the polygon's outline.
+            fill_color (4-tuple) -- the RGBA fill_color of the polygon.
+            fill (bool) -- whether or not the polygon is filled with
+                fill_color.
+            line_cap (str) -- the pycairo rendering of the endpoint of
+                a line.
+            line_join (str) -- the pycairo rendering for the vertex
+                connecting two joined lines.
+            line_width (int) -- the thickness of the polygon's outline,
+                in pixels.
+            line_color (4-tuple) -- the RGBA fill_color of the polygon's
+                outline.
         """
         self.calling_surface = calling_surface
         self.context = self.calling_surface.context
@@ -82,29 +87,32 @@ class DrawSurface:
 
     @polygon_wrapper
     def dot(self, x, y, radius=1, **kwargs):
+        """See SimpleSurface.dot()"""
         # Calculate the width and height of the inner section of the dot
         width = radius * 2 - self.line_width
         height = radius * 2 - self.line_width
 
-        # Parse the x- and y-coordinates if they were sent in as strings.
-        # The parsing methods return the top-left corner of the bounding box,
-        # so we have to move the coordinates back to the center of the dot.
+        # Parse the x- and y-coordinates if they were sent in as
+        # strings. The parsing methods return the top-left corner of the
+        # bounding box, so we have to move the coordinates back to the
+        # center of the dot.
         if isinstance(x, str):
             x = self._parse_x(x, width) + width / 2
         if isinstance(y, str):
             y = self._parse_y(y, height) + height / 2
 
-        # Draw the dot by moving to the center and drawing a circle with the
-        # given radius, accounting for the width of the outline.
+        # Draw the dot by moving to the center and drawing a circle with
+        # the given radius, accounting for the width of the outline.
         self.context.arc(x, y, radius - self.line_width / 2, 0, 2 * math.pi)
 
     @polygon_wrapper
     def ellipse(self, x, y, width, height, **kwargs):
+        """See SimpleSurface.ellipse()"""
         # Determine the x and y coordinates based on other attributes
         x, y, width, height = self._adjust_params(x, y, width, height)
 
-        # Draw an ellipse by scaling the Context by the width and height,
-        # and drawing a unit circle
+        # Draw an ellipse by scaling the Context by the width and
+        # height, and drawing a unit circle
         self.context.save()
         self.context.translate(x + width / 2, y + height / 2)
         self.context.scale(width / 2, height / 2)
@@ -112,6 +120,7 @@ class DrawSurface:
         self.context.restore()
 
     def line(self, x1, y1, x2, y2, **kwargs):
+        """See SimpleSurface.line()"""
         # Save the Context so we can restore it after the line is drawn
         self.context.save()
 
@@ -121,8 +130,8 @@ class DrawSurface:
         # The color is actually from line_color, not fill_color
         self.calling_surface._set_color(self.line_color)
 
-        # Establish parameters not sent in. In this case we don't need these
-        # affecting anything, so we're setting them all to 0.
+        # Establish parameters not sent in. In this case we don't need
+        # these affecting anything, so we're setting them all to 0.
         width = 0
         height = 0
         self.line_width = 0
@@ -141,6 +150,7 @@ class DrawSurface:
 
     @polygon_wrapper
     def polygon(self, points, **kwargs):
+        """See SimpleSurface.polygon()"""
         # Parse each set of points
         for i, (x, y) in enumerate(points):
             points[i] = (self._parse_x(x, 0), self._parse_y(y, 0))
@@ -153,6 +163,7 @@ class DrawSurface:
 
     @polygon_wrapper
     def rectangle(self, x, y, width, height, **kwargs):
+        """See SimpleSurface.rectangle()"""
         # Parse and adjust the parameters sent in
         x, y, width, height = self._adjust_params(x, y, width, height)
 
@@ -161,14 +172,15 @@ class DrawSurface:
 
     @polygon_wrapper
     def rounded_rectangle(self, x, y, width, height, radius, **kwargs):
+        """See SimpleSurface.rounded_rectangle()"""
         # Parse and adjust the parameters sent in
         x, y, width, height = self._adjust_params(x, y, width, height)
 
         # (x, y)-coordinates of the four corners.
-        # The four corners are: bottom-right, bottom-left, top-left, top-right.
-        # This order is due to the origin and direction that pycairo goes in
-        # when it draws an arc (starts at the rightmost point of the circle and
-        # moves clockwise).
+        # The four corners are: bottom-right, bottom-left, top-left,
+        # top-right. This order is due to the origin and direction that
+        # pycairo goes in when it draws an arc (starts at the rightmost
+        # point of the circle and moves clockwise).
         corners = [
             [x + width - radius, y + height - radius],
             [x + radius, y + height - radius],
@@ -179,7 +191,11 @@ class DrawSurface:
         # Draw the four corners
         for i, (corner_x, corner_y) in enumerate(corners):
             self.context.arc(
-                corner_x, corner_y, radius, (i % 4) * (math.pi / 2), ((i + 1) % 4) * (math.pi / 2)
+                corner_x,
+                corner_y,
+                radius,
+                (i % 4) * (math.pi / 2),
+                ((i + 1) % 4) * (math.pi / 2),
             )
 
         # Draw the path connecting them together
@@ -187,14 +203,14 @@ class DrawSurface:
 
     def _adjust_params(self, x, y, width, height):
         """
-        Return the adjusted x, y, width, and height of the object being drawn,
-        based on what's sent in and the size of the outline.
+        Return the adjusted x, y, width, and height of the object being
+        drawn, based on what's sent in and the size of the outline.
 
         Keyword arguments:
-                x (int/str) -- the x-coordinate sent in.
-                y (int/str) -- the y-coordinate sent in.
-                width (int) -- the width sent in.
-                height (int) -- the height sent in.
+            x (int/str) -- the x-coordinate sent in.
+            y (int/str) -- the y-coordinate sent in.
+            width (int) -- the width sent in.
+            height (int) -- the height sent in.
         """
         # Adjust the width and height to account for half the outline
         # on both sides of the polygon (so a full outline in total)
@@ -214,18 +230,18 @@ class DrawSurface:
         and set some of those attributes.
 
         Keyword arguments:
-                fill_color (3- or 4-tuple) -- the RGB(A) fill_color of the polygon
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the polygon with fill_color
-                        (default True).
-                line_cap (cairo.LINE_CAP) -- the cap at the end of the line
-                        (default cairo.LINE_CAP_SQUARE).
-                line_join(cairo.LINE_JOIN) -- the rendering between two
-                        joining lines (default cairo.LINE_JOIN_MITER).
-                line_width (int) -- the thickness of a line
-                    or polygon's outline, in pixels (default 1).
-                line_color (3- or 4-tuple) -- the RGB(A) fill_color of the
-                        polygon's outline (default 'fill_color').
+            fill_color (3- or 4-tuple) -- the RGB(A) fill_color of the
+                polygon (default (0, 0, 0) (black)).
+            fill (bool) -- whether or not to fill the polygon with
+                fill_color (default True).
+            line_cap (cairo.LINE_CAP) -- the cap at the end of the line
+                (default cairo.LINE_CAP_SQUARE).
+            line_join(cairo.LINE_JOIN) -- the rendering between two
+                joining lines (default cairo.LINE_JOIN_MITER).
+            line_width (int) -- the thickness of a line or polygon's
+                outline, in pixels (default 1).
+            line_color (3- or 4-tuple) -- the RGB(A) fill_color of the
+                polygon's outline (default 'fill_color').
         """
         # Initialize attributes based on keyword parameters
         self.fill_color = kwargs.get("fill_color", (0, 0, 0))
@@ -246,8 +262,8 @@ class DrawSurface:
         Parse the x-coordinate.
 
         Keyword arguments:
-                x (int/str) -- the x-coordinate to parse.
-                width (int) -- the width of the polygon (default 0).
+            x (int/str) -- the x-coordinate to parse.
+            width (int) -- the width of the polygon (default 0).
         """
         # Make sure the coordinate is in the correct format
         if isinstance(x, str):
@@ -273,8 +289,8 @@ class DrawSurface:
         Parse the y-coordinate.
 
         Keyword arguments:
-                y (int/str) -- the y-coordinate to parse.
-                height (int) -- the height of the polygon (default 0).
+            y (int/str) -- the y-coordinate to parse.
+            height (int) -- the height of the polygon (default 0).
         """
         # Make sure the coordinate is in the correct format
         if isinstance(y, str):
