@@ -15,9 +15,9 @@ surface.write(
         "to create an indented paragraph. One tab is the equivalent of four "
         "spaces.\n\n"
         'Line breaks ("\\n") with leading spaces or tabs can be combined to\n'
-        "                                        give\n"
-        "                           more\n"
-        "           control\n"
+        "\t\t\t\t\t\t\t\t\t\tgive\n"
+        "\t\t\t\t\t\t   more\n"
+        "\t\t   control\n"
         "over how the text looks.\n\n"
         "With the font size not specified, the text will fill as much of "
         "the area as it's allowed to (in this case, the entire page)."

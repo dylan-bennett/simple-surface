@@ -703,7 +703,6 @@ class TextSurface:
         lines = []
 
         # The list containing the words contained in the current line
-        # (starting with any leading spaces)
         line = []
 
         # Split the text up into words
@@ -802,7 +801,7 @@ class TextSurface:
                     + self.outline_width / 2
                 )
             elif self.alignment == "justified":
-                x = self.outline_width / 2 + x_bearing
+                x = x_bearing + self.outline_width / 2
 
                 # Get the width of the text without spaces by summing up
                 # the width of each word.
