@@ -87,6 +87,7 @@ class DrawSurface:
 
     @polygon_wrapper
     def dot(self, x, y, radius=1, **kwargs):
+        """See SimpleSurface.dot()"""
         # Calculate the width and height of the inner section of the dot
         width = radius * 2 - self.line_width
         height = radius * 2 - self.line_width
@@ -106,6 +107,7 @@ class DrawSurface:
 
     @polygon_wrapper
     def ellipse(self, x, y, width, height, **kwargs):
+        """See SimpleSurface.ellipse()"""
         # Determine the x and y coordinates based on other attributes
         x, y, width, height = self._adjust_params(x, y, width, height)
 
@@ -118,6 +120,7 @@ class DrawSurface:
         self.context.restore()
 
     def line(self, x1, y1, x2, y2, **kwargs):
+        """See SimpleSurface.line()"""
         # Save the Context so we can restore it after the line is drawn
         self.context.save()
 
@@ -147,6 +150,7 @@ class DrawSurface:
 
     @polygon_wrapper
     def polygon(self, points, **kwargs):
+        """See SimpleSurface.polygon()"""
         # Parse each set of points
         for i, (x, y) in enumerate(points):
             points[i] = (self._parse_x(x, 0), self._parse_y(y, 0))
@@ -159,6 +163,7 @@ class DrawSurface:
 
     @polygon_wrapper
     def rectangle(self, x, y, width, height, **kwargs):
+        """See SimpleSurface.rectangle()"""
         # Parse and adjust the parameters sent in
         x, y, width, height = self._adjust_params(x, y, width, height)
 
@@ -167,6 +172,7 @@ class DrawSurface:
 
     @polygon_wrapper
     def rounded_rectangle(self, x, y, width, height, radius, **kwargs):
+        """See SimpleSurface.rounded_rectangle()"""
         # Parse and adjust the parameters sent in
         x, y, width, height = self._adjust_params(x, y, width, height)
 
