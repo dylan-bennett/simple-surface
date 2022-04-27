@@ -16,6 +16,8 @@ advanced functionality is also provided, including:
   not specified
 - support for newlines ('\\n') within the text string, including
   successive newlines (e.g., '\\n\\n\\n')
+- support for tabs ('\\t') within the text string, including
+  successive tabs (e.g., '\\t\\t\\t\\t')
 - automatic line breaks for long lines of text at a specified font size
   (newlines are still taken into account in this case)
 """
@@ -529,7 +531,7 @@ class TextSurface:
             text_height += line_height
 
             # If this line is longer than any previous, record it
-            text_width = max(text_width, width)
+            text_width = max(text_width, width + x_bearing)
 
             # Add the metadata of the line to its entry in the
             # dictionary
@@ -693,11 +695,15 @@ class TextSurface:
         if font_size is None:
             font_size = self.font_size
 
+        # Replace any tabs (\t) with four spaces
+        text = text.replace("\t", "    ")
+
         # The list of lines of text, where each entry is a string of
         # words separated by spaces
         lines = []
 
         # The list containing the words contained in the current line
+        # (starting with any leading spaces)
         line = []
 
         # Split the text up into words
@@ -782,7 +788,7 @@ class TextSurface:
             # If the text is justified, calculate the spacing between
             # words.
             if self.alignment == "left":
-                x = -x_bearing + self.outline_width / 2
+                x = self.outline_width / 2
             elif self.alignment == "center":
                 x = (
                     (self.text_width - line_width) / 2
@@ -796,14 +802,14 @@ class TextSurface:
                     + self.outline_width / 2
                 )
             elif self.alignment == "justified":
-                x = -x_bearing + self.outline_width / 2
+                x = self.outline_width / 2 + x_bearing
 
                 # Get the width of the text without spaces by summing up
                 # the width of each word.
                 # Note that we don't simply remove the spaces and
                 # measure the result, because the kerning between words
                 # might affect it.
-                no_spaces_width = 0
+                no_spaces_width = x_bearing
                 for word in line.split():
                     no_spaces_width += self._get_text_dimensions([word])[0]
 

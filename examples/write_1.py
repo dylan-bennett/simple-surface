@@ -9,11 +9,15 @@ surface.set_background()
 # Write text with default parameters
 surface.write(
     (
-        "This is one text block written with the default parameters.\n\n"
-        "Line breaks are supported and\n"
-        "give\n"
-        "more\n"
-        "control\n"
+        "This page contains one block of text, written with the default "
+        "parameters.\n\n"
+        '\tBoth tabs ("\\t") and leading spaces are supported, and can be used '
+        "to create an indented paragraph. One tab is the equivalent of four "
+        "spaces.\n\n"
+        'Line breaks ("\\n") with leading spaces or tabs can be combined to\n'
+        "                                        give\n"
+        "                           more\n"
+        "           control\n"
         "over how the text looks.\n\n"
         "With the font size not specified, the text will fill as much of "
         "the area as it's allowed to (in this case, the entire page)."
