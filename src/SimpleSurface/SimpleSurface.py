@@ -16,16 +16,20 @@ class SimpleSurface:
         Initialize the SimpleSurface object.
 
         Keyword arguments:
-                width (int) -- the width of the image, in pixels.
-                height (int) -- the height of the image, in pixels.
-                format (cairo.Format) -- the format of the image
-                        (default cairo.FORMAT_ARGB32).
+            width (int) -- the width of the image, in pixels.
+            height (int) -- the height of the image, in pixels.
+            format (cairo.Format) -- the format of the image
+                (default cairo.FORMAT_ARGB32).
 
         Attributes:
-                surface (ImageSurface) -- the Surface where everything is drawn.
-                context (Context) -- the Context associated with the Surface.
-                text_surface (TextSurface) -- the TextSurface object used to write text.
-                draw_surface (DrawSurface) -- the DrawSurface object used to draw things.
+            surface (ImageSurface) -- the Surface where everything is
+                drawn.
+            context (Context) -- the Context associated with the
+                Surface.
+            text_surface (TextSurface) -- the TextSurface object used to
+                write text.
+            draw_surface (DrawSurface) -- the DrawSurface object used to
+                draw things.
         """
         self.surface = cairo.ImageSurface(format, width, height)
         self.context = cairo.Context(self.surface)
@@ -34,14 +38,15 @@ class SimpleSurface:
 
     def crop(self, x, y, width, height):
         """
-        Crop the surface to a given width and height. The (x, y)-coordinates
-        mark the top-left corner of the section to be cropped.
+        Crop the surface to a given width and height. The
+        (x, y)-coordinates mark the top-left corner of the section to be
+        cropped.
 
         Keyword arguments:
-                x (int) -- the left side of the crop.
-                y (int) -- the top side of the crop.
-                width (int/float) -- the width of the crop.
-                height (int/float) -- the height of the crop.
+            x (int) -- the left side of the crop.
+            y (int) -- the top side of the crop.
+            width (int/float) -- the width of the crop.
+            height (int/float) -- the height of the crop.
         """
         # Make a new ImageSurface of the width and height given
         cropped_surface = cairo.ImageSurface(self.get_format(), int(width), int(height))
@@ -55,7 +60,8 @@ class SimpleSurface:
         # Set the source of the Context to be the source surface
         cropped_context.set_source_surface(self.surface)
 
-        # Draw a rectangle of the width and height given, at the coords given
+        # Draw a rectangle of the width and height given,
+        # at the coordinates given
         cropped_context.rectangle(x, y, width, height)
 
         # Paint it onto the cropped surface
@@ -85,39 +91,39 @@ class SimpleSurface:
         Draw a dot of a given radius, centered at (x, y).
 
         Keyword arguments:
-                x (int/str) -- the x-coordinate.
-                y (int/str) -- the y-coordinate.
-                radius (int) -- the radius of the dot (default 1).
-                fill_color (3- or 4-tuple) -- the RGB(A) color of the dot
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the dot with color
-                        (default True).
-                line_width (int) -- the thickness of the dot's outline,
-                        in pixels (default 1).
-                line_color (3- or 4-tuple) -- the RGB(A) color of the
-                        dot's outline (default 'fill_color').
+            x (int/str) -- the x-coordinate.
+            y (int/str) -- the y-coordinate.
+            radius (int) -- the radius of the dot (default 1).
+            fill_color (3- or 4-tuple) -- the RGB(A) color of the dot
+                (default (0, 0, 0) (black)).
+            fill (bool) -- whether or not to fill the dot with color
+                (default True).
+            line_width (int) -- the thickness of the dot's outline,
+                in pixels (default 1).
+            line_color (3- or 4-tuple) -- the RGB(A) color of the dot's
+                outline (default 'fill_color').
         """
         self.draw_surface.dot(x, y, radius, **kwargs)
 
     def ellipse(self, x, y, width, height, **kwargs):
         """
-        Draw an ellipse of a given width and height. The (x, y)-coordinates
-        correspond to the top-left corner of the bounding box that would
-        contain the ellipse.
+        Draw an ellipse of a given width and height. The
+        (x, y)-coordinates correspond to the top-left corner of the
+        bounding box that would contain the ellipse.
 
         Keyword arguments:
-                x (int/str) -- the x-coordinate of the ellipse.
-                y (int/str) -- the y-coordinate of the ellipse.
-                width (int) -- the width of the ellipse.
-                height (int) -- the height of the ellipse.
-                fill_color (3- or 4-tuple) -- the RGB(A) color of the ellipse
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the ellipse with color
-                        (default True).
-                line_width (int) -- the thickness of the ellipse's outline,
-                        in pixels (default 1).
-                line_color (3- or 4-tuple) -- the RGB(A) color of the
-                        ellipse's outline (default 'fill_color').
+            x (int/str) -- the x-coordinate of the ellipse.
+            y (int/str) -- the y-coordinate of the ellipse.
+            width (int) -- the width of the ellipse.
+            height (int) -- the height of the ellipse.
+            fill_color (3- or 4-tuple) -- the RGB(A) color of the
+                ellipse (default (0, 0, 0) (black)).
+            fill (bool) -- whether or not to fill the ellipse with color
+                (default True).
+            line_width (int) -- the thickness of the ellipse's outline,
+                in pixels (default 1).
+            line_color (3- or 4-tuple) -- the RGB(A) color of the
+                ellipse's outline (default 'fill_color').
         """
         self.draw_surface.ellipse(x, y, width, height, **kwargs)
 
@@ -135,11 +141,12 @@ class SimpleSurface:
 
     def gridlines(self, color=(0, 0, 0)):
         """
-        Outline the surface, and draw vertical and horizontal center lines.
+        Outline the surface, and draw vertical and horizontal center
+        lines.
 
         Keyword arguments:
-                color (3- or 4-tuple) -- the RGB(A) color of the gridlines
-                        (default (0, 0, 0) (black)).
+            color (3- or 4-tuple) -- the RGB(A) color of the gridlines
+                (default (0, 0, 0) (black)).
         """
         self.outline(color=color)
         self.draw_surface.line(
@@ -154,15 +161,16 @@ class SimpleSurface:
         Draw a line connecting two points at given sets of coordinates.
 
         Keyword arguments:
-                x1 (int/str) -- the x-coordinate of the first point.
-                y1 (int/str) -- the y-coordinate of the first point.
-                x2 (int/str) -- the x-coordinate of the second point.
-                y2 (int/str) -- the y-coordinate of the second point.
-                line_color (3- or 4-tuple) -- the RGB(A) color of the line
-                        (default (0, 0, 0) (black)).
-                line_cap (cairo.LINE_CAP) -- the pycairo cap at the end of the line
-                        (default cairo.LINE_CAP_SQUARE).
-                line_width (int) -- the thickness of the line, in pixels (default 1).
+            x1 (int/str) -- the x-coordinate of the first point.
+            y1 (int/str) -- the y-coordinate of the first point.
+            x2 (int/str) -- the x-coordinate of the second point.
+            y2 (int/str) -- the y-coordinate of the second point.
+            line_color (3- or 4-tuple) -- the RGB(A) color of the line
+                (default (0, 0, 0) (black)).
+            line_cap (cairo.LINE_CAP) -- the pycairo cap at the end of
+                the line (default cairo.LINE_CAP_SQUARE).
+            line_width (int) -- the thickness of the line, in pixels
+                (default 1).
         """
         self.draw_surface.line(x1, y1, x2, y2, **kwargs)
 
@@ -171,13 +179,19 @@ class SimpleSurface:
         Outline the surface.
 
         Keyword arguments:
-                color (3- or 4-tuple) -- the color of the outline
-                        (default (0, 0, 0) (black)).
-                width (int) -- the width of the outline, in pixels
-                        (default 1).
+            color (3- or 4-tuple) -- the color of the outline
+                (default (0, 0, 0) (black)).
+            width (int) -- the width of the outline, in pixels
+                (default 1).
         """
         self.draw_surface.rectangle(
-            0, 0, self.get_width(), self.get_height(), fill_color=color, line_width=width, fill=False
+            0,
+            0,
+            self.get_width(),
+            self.get_height(),
+            fill_color=color,
+            line_width=width,
+            fill=False,
         )
 
     def paste(self, origin, x, y, width=None, height=None, scaling="absolute", rotate=0):
@@ -201,25 +215,25 @@ class SimpleSurface:
         (e.g., 2.0, 1.5).
 
         The pasted image can also be rotated clockwise in radians (where
-        2*pi is one full rotation). The rotation happens about the top-left
-        corner (i.e., the (x, y)-coordinate).
+        2*pi is one full rotation). The rotation happens about the
+        top-left corner (i.e., the (x, y)-coordinate).
 
         Keyword arguments:
-                origin (cairo.ImageSurface/SimpleSurface) -- the
-                        surface that's going to be pasted.
-                x (float/str) -- the x-coordinate of the image. It can be
-                        either a number, or one of "left", "center", or "right".
-                y (float/str) -- the y-coordinate of the image. It can be
-                        either a number, or one of "top", "center", or "bottom".
-                width (float) -- the desired width of the pasted image
-                        (default None).
-                height (float) -- the desired height of the pasted image
-                        (default None).
-                scaling (str) -- how to scale the pasted image, either
-                        "absolute" or "ratio" (default "absolute").
-                rotate (float) -- how much to rotate the pasted imaged
-                        clockwise, in radians, where 2*pi is one full rotation
-                        (default 0).
+            origin (cairo.ImageSurface/SimpleSurface) -- the surface
+                that's going to be pasted.
+            x (float/str) -- the x-coordinate of the image. It can be
+                either a number, or one of "left", "center", or "right".
+            y (float/str) -- the y-coordinate of the image. It can be
+                either a number, or one of "top", "center", or "bottom".
+            width (float) -- the desired width of the pasted image
+                (default None).
+            height (float) -- the desired height of the pasted image
+                (default None).
+            scaling (str) -- how to scale the pasted image, either
+                "absolute" or "ratio" (default "absolute").
+            rotate (float) -- how much to rotate the pasted imaged
+                clockwise, in radians, where 2*pi is one full rotation
+                (default 0).
         """
         # Make sure the parameters follow the proper formatting
         assert scaling in ["absolute", "ratio"], (
@@ -236,19 +250,19 @@ class SimpleSurface:
                 "or one of 'top', 'center', or 'bottom'"
             )
 
-        # Save the state of our Context in order to restore it at the end
+        # Save the state of our Context so we can restore it at the end
         self.context.save()
 
-        # If origin is an SimpleSurface object, then we just want to work
-        # with its ImageSurface attribute
+        # If origin is an SimpleSurface object, then we just want to
+        # work with its ImageSurface attribute
         if isinstance(origin, SimpleSurface):
             origin = origin.surface
 
         # Create a SurfacePattern object with which to paste the image
         surface_pattern_origin = cairo.SurfacePattern(origin)
 
-        # Initialize the destination width and height of the image, and the
-        # scaling factors
+        # Initialize the destination width and height of the image,
+        # and the scaling factors
         dest_width = origin.get_width()
         dest_height = origin.get_height()
         scaling_width = 1
@@ -299,7 +313,8 @@ class SimpleSurface:
         self.context.rectangle(0, 0, dest_width, dest_height)
 
         # Scale the surface to the desired width and height.
-        # Scaling is the last thing done because it affects the entire Context.
+        # Scaling is the last thing done because it affects the entire
+        # Context.
         if not (dest_width == 0 or dest_height == 0):
             self.context.scale(scaling_width, scaling_height)
 
@@ -317,18 +332,18 @@ class SimpleSurface:
         Draw a polygon that connects a series of (x, y)-coordinates.
 
         Keyword arguments:
-                points (list) -- a list of (x, y)-coordinates as tuples,
-                        indicating the vertices of the polygon.
-                fill_color (3- or 4-tuple) -- the RGB(A) color of the polygon
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the polygon with color
-                        (default True).
-                line_join (cairo.LINE_JOIN) -- the rendering between two
-                        joining lines (default cairo.LINE_JOIN_MITER).
-                line_width (int) -- the thickness of the polygon's outline,
-                        in pixels (default 1).
-                line_color (3- or 4-tuple) -- the RGB(A) color of the
-                        polygon's outline (default 'fill_color').
+            points (list) -- a list of (x, y)-coordinates as tuples,
+                indicating the vertices of the polygon.
+            fill_color (3- or 4-tuple) -- the RGB(A) color of the
+                polygon (default (0, 0, 0) (black)).
+            fill (bool) -- whether or not to fill the polygon with color
+                (default True).
+            line_join (cairo.LINE_JOIN) -- the rendering between two
+                joining lines (default cairo.LINE_JOIN_MITER).
+            line_width (int) -- the thickness of the polygon's outline,
+                in pixels (default 1).
+            line_color (3- or 4-tuple) -- the RGB(A) color of the
+                polygon's outline (default 'fill_color').
         """
         self.draw_surface.polygon(points, **kwargs)
 
@@ -338,18 +353,18 @@ class SimpleSurface:
         top-left corner of the rectangle.
 
         Keyword arguments:
-                x (int/str) -- the x-coordinate.
-                y (int/str) -- the y-coordinate.
-                width (int) -- the width of the rectangle.
-                height (int) -- the height of the rectangle.
-                fill_color (3- or 4-tuple) -- the RGB(A) color of the rectangle
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the rectangle with color
-                        (default True).
-                line_width (int) -- the thickness of the rectangle's outline,
-                        in pixels (default 1).
-                line_color (3- or 4-tuple) -- the RGB(A) color of the
-                        rectangle's outline (default 'fill_color').
+            x (int/str) -- the x-coordinate.
+            y (int/str) -- the y-coordinate.
+            width (int) -- the width of the rectangle.
+            height (int) -- the height of the rectangle.
+            fill_color (3- or 4-tuple) -- the RGB(A) color of the
+                rectangle (default (0, 0, 0) (black)).
+            fill (bool) -- whether or not to fill the rectangle with
+                color (default True).
+            line_width (int) -- the thickness of the rectangle's
+                outline, in pixels (default 1).
+            line_color (3- or 4-tuple) -- the RGB(A) color of the
+                rectangle's outline (default 'fill_color').
         """
         self.draw_surface.rectangle(x, y, width, height, **kwargs)
 
@@ -360,19 +375,19 @@ class SimpleSurface:
         contain the rounded rectangle.
 
         Keyword arguments:
-                x (int/str) -- the x-coordinate.
-                y (int/str) -- the y-coordinate.
-                width (int) -- the width of the rounded rectangle.
-                height (int) -- the height of the rounded rectangle.
-                radius (int) -- the radius of the rectangle's corners.
-                fill_color (3- or 4-tuple) -- the RGB(A) color of the rounded rectangle
-                        (default (0, 0, 0) (black)).
-                fill (bool) -- whether or not to fill the rounded rectangle with
-                        color (default True).
-                line_width (int) -- the thickness of the rounded rectangle's outline,
-                        in pixels (default 1).
-                line_color (3- or 4-tuple) -- the RGB(A) color of the
-                        rounded rectangle's outline (default 'fill_color').
+            x (int/str) -- the x-coordinate.
+            y (int/str) -- the y-coordinate.
+            width (int) -- the width of the rounded rectangle.
+            height (int) -- the height of the rounded rectangle.
+            radius (int) -- the radius of the rectangle's corners.
+            fill_color (3- or 4-tuple) -- the RGB(A) color of the
+                rounded rectangle (default (0, 0, 0) (black)).
+            fill (bool) -- whether or not to fill the rounded rectangle
+                with color (default True).
+            line_width (int) -- the thickness of the rounded rectangle's
+                outline, in pixels (default 1).
+            line_color (3- or 4-tuple) -- the RGB(A) color of the
+                rounded rectangle's outline (default 'fill_color').
         """
         self.draw_surface.rounded_rectangle(x, y, width, height, radius, **kwargs)
 
@@ -381,8 +396,8 @@ class SimpleSurface:
         Set the surface background to a given color.
 
         Keyword arguments:
-                color (3- or 4-tuple) -- the RGB(A) color of the background
-                        (default (255, 255, 255) (white)).
+            color (3- or 4-tuple) -- the RGB(A) color of the background
+                (default (255, 255, 255) (white)).
         """
         self.draw_surface.rectangle(0, 0, self.get_width(), self.get_height(), fill_color=color)
 
@@ -393,37 +408,41 @@ class SimpleSurface:
         the text and padding.
 
         Keyword arguments:
-                text (str) -- the text to be written.
-                x (float) -- the x-coordinate of the text.
-                y (float) -- the y-coordinate of the text.
-                font (str) -- the filename of the font.
+            text (str) -- the text to be written.
+            x (float) -- the x-coordinate of the text.
+            y (float) -- the y-coordinate of the text.
+            font (str) -- the filename of the font.
 
         Optional arguments:
-                alignment (str) -- the alignment of the text. Can be "left",
-                        "center", "right", or "justified" (default "left").
-                break_lines (bool) -- whether to break text up into multiple
-                        lines if it's too long (default True).
-                color (3- or 4-tuple) -- the color of the text as an RGB(A)
-                        tuple (default (0, 0, 0) (black)).
-                font_size (int/str) -- the font size, in pts. If set to "fill",
-                        it will be the largest font size it can be (default "fill").
-                justify_last_line (bool) -- whether to justify the last line
-                        of text , if the text is justified. If set to False, the
-                        last line will be left-aligned (default False).
-                line_spacing (float) -- the line spacing multiplier (default 1.0).
-                max_height (int) -- the maximum vertical space the text and
-                        padding will take up. If set to "fill", it will be the
-                        largest height needed/allowed (default "fill").
-                max_width (int) -- the maximum horizontal space the text and
-                        padding will take up. If set to "fill", it will be the
-                        largest width needed/allowed (default "fill").
-                min_font_size (int) -- the minimum font size, in pts (default 7).
-                outline_width (int) -- the text outline width, in pixels (default 0).
-                outline_color (3- or 4-tuple) -- the color of the text outline
-                        as an RGB(A) tuple (default (0, 0, 0) (black)).
-                padding (dict) -- the padding around the text, in pixels.
-                        Any or all of the padding keys can be sent in.
-                        (default {"top":0, "right":0, "bottom":0, "left":0}).
+            alignment (str) -- the alignment of the text. Can be "left",
+                "center", "right", or "justified" (default "left").
+            break_lines (bool) -- whether to break text up into multiple
+                lines if it's too long (default True).
+            color (3- or 4-tuple) -- the color of the text as an RGB(A)
+                tuple (default (0, 0, 0) (black)).
+            font_size (int/str) -- the font size, in pts. If set to
+                "fill", it will be the largest font size it can be
+                (default "fill").
+            justify_last_line (bool) -- whether to justify the last line
+                of text , if the text is justified. If set to False, the
+                last line will be left-aligned (default False).
+            line_spacing (float) -- the line spacing multiplier
+                (default 1.0).
+            max_height (int) -- the maximum vertical space the text and
+                padding will take up. If set to "fill", it will be the
+                largest height needed/allowed (default "fill").
+            max_width (int) -- the maximum horizontal space the text and
+                padding will take up. If set to "fill", it will be the
+                largest width needed/allowed (default "fill").
+            min_font_size (int) -- the minimum font size, in pts
+                (default 7).
+            outline_width (int) -- the text outline width, in pixels
+                (default 0).
+            outline_color (3- or 4-tuple) -- the color of the text
+                outline as an RGB(A) tuple (default (0, 0, 0) (black)).
+            padding (dict) -- the padding around the text, in pixels.
+                Any or all of the padding keys can be sent in.
+                (default {"top":0, "right":0, "bottom":0, "left":0}).
         """
         return self.text_surface.write(text, x, y, font, **kwargs)
 
@@ -432,10 +451,10 @@ class SimpleSurface:
         Write the SimpleSurface to a PDF file.
 
         Keyword arguments:
-                target (str) -- the filepath of the PDF file to save to.
-                dpi (float) -- the DPI of the image (default 300).
+            target (str) -- the filepath of the PDF file to save to.
+            dpi (float) -- the DPI of the image (default 300).
         """
-        # Calculate the scale of resolution between our Surface and our PDF
+        # Calculate the scale of resolution between the Surface and PDF
         points_per_inch = 72.0
         pdf_scale = points_per_inch / dpi
 
@@ -465,7 +484,7 @@ class SimpleSurface:
         Write the SimpleSurface to a PNG file.
 
         Keyword arguments:
-                target (str) -- the filepath of the PNG file to save to.
+            target (str) -- the filepath of the PNG file to save to.
         """
         self.surface.write_to_png(target)
 
@@ -474,11 +493,11 @@ class SimpleSurface:
         Set the color of a Context to an RGB or RGBA tuple (range 0-255).
 
         Keyword arguments:
-                color (3- or 4-tuple) -- the RGB(A) color to set.
+            color (3- or 4-tuple) -- the RGB(A) color to set.
         """
         assert len(color) in [3, 4], "parameter 'color' must be a 3- or 4-tuple"
 
-        # Grab the colours and set the alpha to opaque if it's not sent in
+        # Grab the colours, set the alpha to opaque if it's not sent in
         r, g, b, *a = color
         a = a[0] if len(a) > 0 else 255
         self.context.set_source_rgba(r / 255, g / 255, b / 255, a / 255)
