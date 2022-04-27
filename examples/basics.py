@@ -2,7 +2,7 @@
 """Examples of basic commands done using SimpleSurface."""
 import math
 
-from src.SimpleSurface import SimpleSurface
+from SimpleSurface import SimpleSurface
 
 font = "examples/fonts/arial.ttf"
 font_size = 16

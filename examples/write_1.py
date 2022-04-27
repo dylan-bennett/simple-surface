@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Example of text written with the default parameters."""
-from src.SimpleSurface import SimpleSurface
+from SimpleSurface import SimpleSurface
 
 # Create the SimpleSurface object and set the background to white
 surface = SimpleSurface(600, 800)

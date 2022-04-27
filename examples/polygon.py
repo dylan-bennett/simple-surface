@@ -2,7 +2,7 @@
 """Examples of various ways to draw a polygon."""
 import math
 
-from src.SimpleSurface import SimpleSurface
+from SimpleSurface import SimpleSurface
 
 # Create the SimpleSurface object and set the background to white
 surface = SimpleSurface(600, 800)
