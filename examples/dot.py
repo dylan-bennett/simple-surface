@@ -58,11 +58,16 @@ surface.write(
     font_size=font_size,
 )
 
-# Draw a lime-green dot at ("center", "center") with a radius of 50 pixels
-# and a red outline
-surface.dot("center", "center", 50, fill_color=(50, 205, 50), line_color=(255, 0, 0))
+# Draw a lime-green dot at ("center", "center") with a radius of 50
+# pixels and a red outline
+surface.dot(
+    "center", "center", 50, fill_color=(50, 205, 50), line_color=(255, 0, 0)
+)
 surface.write(
-    'dot("center", "center", 50, fill_color=(50, 205, 50), line_color=(255, 0, 0))',
+    (
+        'dot("center", "center", 50, fill_color=(50, 205, 50), '
+        "line_color=(255, 0, 0))"
+    ),
     "center",
     surface.get_height() / 2 + 60,
     font=font,
@@ -72,11 +77,15 @@ surface.write(
 # Draw an empty dot with a radius of 30 pixels
 surface.dot(500, 540, 30, fill=False)
 surface.write(
-    "dot(500, 540, 30, fill=False)", 250, 540 - font_size / 2, font=font, font_size=font_size
+    "dot(500, 540, 30, fill=False)",
+    250,
+    540 - font_size / 2,
+    font=font,
+    font_size=font_size,
 )
 
-# Draw a pink dot at ("right", "bottom") with a radius of 100 pixels and a
-# purple outline that is 20 pixels thick
+# Draw a pink dot at ("right", "bottom") with a radius of 100 pixels
+# and a purple outline that is 20 pixels thick
 surface.dot(
     x="left",
     y="bottom",
@@ -86,7 +95,10 @@ surface.dot(
     line_color=(128, 0, 128),
 )
 a, b = surface.write(
-    'dot(\nx="left",\ny="bottom",\nradius=100,\nfill_color=(255, 192, 203),\nline_width=20,\nline_color=(128, 0, 128),\n)',
+    (
+        'dot(\nx="left",\ny="bottom",\nradius=100,\nfill_color=(255, 192, 203),'
+        "\nline_width=20,\nline_color=(128, 0, 128),\n)"
+    ),
     "center",
     "bottom",
     font=font,

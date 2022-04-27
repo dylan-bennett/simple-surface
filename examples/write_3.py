@@ -49,8 +49,8 @@ bb_width, bb_height = surface.write(
 )
 surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
-# Write text to show what happens with a specified font size and no automatic
-# line breaks
+# Write text to show what happens with a specified font size and no
+# automatic line breaks
 y += bb_height + text_buffer
 text = (
     "In this example, a font size is specified but line breaks are not "

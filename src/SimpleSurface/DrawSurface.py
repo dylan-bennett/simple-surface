@@ -305,7 +305,9 @@ class DrawSurface:
         elif y == "center":
             y = (self.calling_surface.get_height() - height) / 2
         elif y == "bottom":
-            y = self.calling_surface.get_height() - (height + self.line_width / 2)
+            y = self.calling_surface.get_height() - (
+                height + self.line_width / 2
+            )
         else:
             y += self.line_width / 2
 

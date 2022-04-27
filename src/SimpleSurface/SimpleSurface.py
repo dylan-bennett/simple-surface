@@ -49,7 +49,9 @@ class SimpleSurface:
             height (int/float) -- the height of the crop.
         """
         # Make a new ImageSurface of the width and height given
-        cropped_surface = cairo.ImageSurface(self.get_format(), int(width), int(height))
+        cropped_surface = cairo.ImageSurface(
+            self.get_format(), int(width), int(height)
+        )
 
         # Create a Context for the cropped surface
         cropped_context = cairo.Context(cropped_surface)
@@ -150,10 +152,18 @@ class SimpleSurface:
         """
         self.outline(color=color)
         self.draw_surface.line(
-            self.get_width() / 2, 0, self.get_width() / 2, self.get_height(), line_color=color
+            self.get_width() / 2,
+            0,
+            self.get_width() / 2,
+            self.get_height(),
+            line_color=color,
         )
         self.draw_surface.line(
-            0, self.get_height() / 2, self.get_width(), self.get_height() / 2, line_color=color
+            0,
+            self.get_height() / 2,
+            self.get_width(),
+            self.get_height() / 2,
+            line_color=color,
         )
 
     def line(self, x1, y1, x2, y2, **kwargs):
@@ -194,7 +204,16 @@ class SimpleSurface:
             fill=False,
         )
 
-    def paste(self, origin, x, y, width=None, height=None, scaling="absolute", rotate=0):
+    def paste(
+        self,
+        origin,
+        x,
+        y,
+        width=None,
+        height=None,
+        scaling="absolute",
+        rotate=0,
+    ):
         """
         Paste a given cairo.ImageSurface or SimpleSurface object at a
         given (x, y)-coordinate.
@@ -237,7 +256,8 @@ class SimpleSurface:
         """
         # Make sure the parameters follow the proper formatting
         assert scaling in ["absolute", "ratio"], (
-            f"parameter 'scaling' cannot be '{scaling}', " "must be either 'absolute' or 'ratio'"
+            f"parameter 'scaling' cannot be '{scaling}', "
+            "must be either 'absolute' or 'ratio'"
         )
         if isinstance(x, str):
             assert x in ["left", "center", "right"], (
@@ -389,7 +409,9 @@ class SimpleSurface:
             line_color (3- or 4-tuple) -- the RGB(A) color of the
                 rounded rectangle's outline (default 'fill_color').
         """
-        self.draw_surface.rounded_rectangle(x, y, width, height, radius, **kwargs)
+        self.draw_surface.rounded_rectangle(
+            x, y, width, height, radius, **kwargs
+        )
 
     def set_background(self, color=(255, 255, 255)):
         """
@@ -399,7 +421,9 @@ class SimpleSurface:
             color (3- or 4-tuple) -- the RGB(A) color of the background
                 (default (255, 255, 255) (white)).
         """
-        self.draw_surface.rectangle(0, 0, self.get_width(), self.get_height(), fill_color=color)
+        self.draw_surface.rectangle(
+            0, 0, self.get_width(), self.get_height(), fill_color=color
+        )
 
     def write(self, text, x, y, font, **kwargs):
         """
@@ -490,7 +514,8 @@ class SimpleSurface:
 
     def _set_color(self, color):
         """
-        Set the color of a Context to an RGB or RGBA tuple (range 0-255).
+        Set the color of a Context to an RGB or RGBA tuple
+        (range 0-255).
 
         Keyword arguments:
             color (3- or 4-tuple) -- the RGB(A) color to set.

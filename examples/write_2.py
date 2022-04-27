@@ -26,7 +26,8 @@ bb_width, bb_height = surface.write(
 )
 surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
-# Write right-aligned text in the top-right quadrant with a font size of 25 pts
+# Write right-aligned text in the top-right quadrant with a font size of
+# 25 pts
 x, y = "right", "top"
 text = (
     "This text is right-aligned. Its font size is set to 25 pts so it "
@@ -44,8 +45,8 @@ bb_width, bb_height = surface.write(
 )
 surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
-# Write center-aligned blue text in the bottom-left quadrant with a different
-# font and padding on all sides
+# Write center-aligned blue text in the bottom-left quadrant with a
+# different font and padding on all sides
 text_buffer = 15
 x, y = text_buffer, surface.get_height() / 2 + text_buffer
 text = (
