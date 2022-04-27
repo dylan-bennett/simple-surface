@@ -11,19 +11,25 @@ font_size = 16
 
 # Write a title
 title_width, title_height = surface.write(
-    "rounded_rectangle()", "center", "top", font=font, font_size=30, padding={"top": 10}
+    "rounded_rectangle()",
+    "center",
+    "top",
+    font=font,
+    font_size=30,
+    padding={"top": 10},
 )
 
 # Describe the rounded_rectangle function at the top
 y = title_height + 10
 _, text_height = surface.write(
     (
-        "The rounded_rectangle function draws a rectangle of any size with rounded corners, originating at the top-left corner.\n\n"
+        "The rounded_rectangle function draws a rectangle of any size with "
+        "rounded corners, originating at the top-left corner.\n\n"
         "Optional arguments include the colour, whether or not to fill it "
         "with colour, the outline thickness, and the outline colour.\n\n"
-        "The width and height of the rounded_rectangle take into account the thickness of the "
-        "outline, so the resulting shape's size will always be the values "
-        "sent in."
+        "The width and height of the rounded_rectangle take into account the "
+        "thickness of the outline, so the resulting shape's size will always "
+        "be the values sent in."
     ),
     "center",
     y,
@@ -46,10 +52,14 @@ surface.write(
     font_size=font_size,
 )
 
-# Draw a transparent lime-green rounded_rectangle at ("center", "center") measuring
-# 250x250 pixels and with a red outline
+# Draw a transparent lime-green rounded_rectangle at
+# ("center", "center") measuring 250x250 pixels and with a red outline
 surface.write(
-    'rounded_rectangle("center", "center", 250, 250, 15,\nfill_color=(50, 205, 50, 128), line_color=(255, 0, 0))\n(The RGBA fill_color makes this one see-through!)',
+    (
+        'rounded_rectangle("center", "center", 250, 250, 15,\n'
+        "fill_color=(50, 205, 50, 128), line_color=(255, 0, 0))\n"
+        "(The RGBA fill_color makes this one see-through!)"
+    ),
     "center",
     "center",
     font=font,
@@ -58,10 +68,17 @@ surface.write(
     font_size=font_size,
 )
 surface.rounded_rectangle(
-    "center", "center", 250, 250, 15, fill_color=(50, 205, 50, 128), line_color=(255, 0, 0)
+    "center",
+    "center",
+    250,
+    250,
+    15,
+    fill_color=(50, 205, 50, 128),
+    line_color=(255, 0, 0),
 )
 
-# Draw an empty rounded_rectangle measuring 200x250 pixels with an outline 20 pixels thick
+# Draw an empty rounded_rectangle measuring 200x250 pixels with an
+# outline 20 pixels thick
 surface.rounded_rectangle(450, 590, 120, 200, 50, fill=False, line_width=20)
 surface.write(
     "rounded_rectangle(450, 590, 120, 200, 50, fill=False, line_width=20)",
@@ -72,8 +89,9 @@ surface.write(
     padding={"right": 10},
 )
 
-# Draw a pink rounded_rectangle at ("left", "bottom") that fills in the entire
-# bottom-right quadrant with a purple outline that is 20 pixels thick
+# Draw a pink rounded_rectangle at ("left", "bottom") that fills in the
+# entire bottom-right quadrant with a purple outline that is 20 pixels
+# thick
 surface.rounded_rectangle(
     x="left",
     y="bottom",
@@ -85,7 +103,12 @@ surface.rounded_rectangle(
     line_color=(128, 0, 128),
 )
 a, b = surface.write(
-    'rounded_rectangle(\nx="left",\ny="bottom",\nwidth=surface.get_width() / 4,\nheight=surface.get_height() / 4,\nradius=0,\nfill_color=(255, 192, 203),\nline_width=10,\nline_color=(128, 0, 128),\n)',
+    (
+        'rounded_rectangle(\nx="left",\ny="bottom",\n'
+        "width=surface.get_width() / 4,\nheight=surface.get_height() / 4,\n"
+        "radius=0,\nfill_color=(255, 192, 203),\nline_width=10,\n"
+        "line_color=(128, 0, 128),\n)"
+    ),
     surface.get_width() / 4 + 20,
     "bottom",
     font=font,

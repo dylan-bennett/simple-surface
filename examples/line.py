@@ -20,7 +20,8 @@ title_width, title_height = surface.write(
 y = title_height + 10
 _, text_height = surface.write(
     (
-        "The line function draws, you guessed it, a line from (x1, y1) to (x2, y2).\n\n"
+        "The line function draws, you guessed it, a line from (x1, y1) to "
+        "(x2, y2).\n\n"
         "Optional arguments include the colour, the width, and the cap style."
     ),
     "center",
@@ -54,13 +55,22 @@ surface.write(
     font_size=font_size,
 )
 
-# Draw a red line 20 pixels thick from (50, 500) to (250, 700) with a rounded
-# line cap.
+# Draw a red line 20 pixels thick from (50, 500) to (250, 700) with a
+# rounded line cap.
 surface.line(
-    50, 400, 250, 550, line_cap=cairo.LINE_CAP_ROUND, line_color=(255, 0, 0), line_width=20
+    50,
+    400,
+    250,
+    550,
+    line_cap=cairo.LINE_CAP_ROUND,
+    line_color=(255, 0, 0),
+    line_width=20,
 )
 surface.write(
-    "line(50, 400, 250, 550, line_cap=cairo.LINE_CAP_ROUND, line_color=(255, 0, 0), line_width=20)",
+    (
+        "line(50, 400, 250, 550, line_cap=cairo.LINE_CAP_ROUND, "
+        "line_color=(255, 0, 0), line_width=20)"
+    ),
     10,
     320,
     font=font,
@@ -82,7 +92,8 @@ surface.write(
     (
         'line("center", "center", "right", "bottom")\n'
         'line("center", "bottom", "right", "center")\n'
-        "rectangle(\nsurface.get_width() / 2,\nsurface.get_height() / 2,\nsurface.get_width() / 2,\nsurface.get_height() / 2,\nfill=False\n)"
+        "rectangle(\nsurface.get_width() / 2,\nsurface.get_height() / 2,\n"
+        "surface.get_width() / 2,\nsurface.get_height() / 2,\nfill=False\n)"
     ),
     "left",
     "bottom",

@@ -64,7 +64,8 @@ surface2.crop(200, 200, 200, 200)
 # Paste the cropped version normally
 surface.paste(surface2, 50, y + font_size)
 
-# Paste the cropped version scaled to a particular width and height (plus gridlines)
+# Paste the cropped version scaled to a particular width and height
+# (plus gridlines)
 surface2.gridlines()
 surface.paste(surface2, 20, 515, width=267, height=135)
 
@@ -73,7 +74,9 @@ surface2.outline(color=(0, 0, 255), width=5)
 surface.paste(surface2, 450, 250, rotate=math.pi / 4)
 
 # Paste the cropped version scaled by a factor of 0.5 and 1.5
-surface.paste(surface2, "right", "bottom", scaling="ratio", width=0.5, height=1.5)
+surface.paste(
+    surface2, "right", "bottom", scaling="ratio", width=0.5, height=1.5
+)
 
 # Write out the width and height and format of this SimpleSurface
 y = 660

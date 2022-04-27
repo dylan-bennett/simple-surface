@@ -20,8 +20,10 @@ title_width, title_height = surface.write(
 y = title_height + 10
 _, text_height = surface.write(
     (
-        "The polygon function connects an array of (x, y)-coordinates to draw any custom shape.\n\n"
-        "Optional arguments include the fill colour, whether or not to fill it with colour, the outline width and the outline colour."
+        "The polygon function connects an array of (x, y)-coordinates to draw "
+        "any custom shape.\n\n"
+        "Optional arguments include the fill colour, whether or not to fill it "
+        "with colour, the outline width and the outline colour."
     ),
     "center",
     y,
@@ -53,14 +55,16 @@ for i in range(0, 5 * 2, 2):
     y = origin[1] + radius * math.sin(math.radians(-90 + (i % 5) * angle))
     pentagram.append((x, y))
 
-surface.polygon(points=pentagram, fill_color=(255, 165, 0), line_color=(0, 0, 0))
+surface.polygon(
+    points=pentagram, fill_color=(255, 165, 0), line_color=(0, 0, 0)
+)
 surface.write(
     "[check file for code lol]",
     375,
     360,
     font=font,
     font_size=font_size,
-    )
+)
 
 # Draw a green pentagon with a red outline that is 10 pixels thick
 radius = 100
@@ -72,27 +76,44 @@ for i in range(5):
     y = origin[1] + radius * math.sin(math.radians(-90 + i * angle))
     pentagon.append((x, y))
 
-surface.polygon(points=pentagon, fill_color=(0, 255, 0), line_width=10, line_color=(255, 0, 0))
+surface.polygon(
+    points=pentagon,
+    fill_color=(0, 255, 0),
+    line_width=10,
+    line_color=(255, 0, 0),
+)
 surface.write(
-    f"polygon(\npoints={[(int(x), int(y)) for x, y in pentagon]},\nfill_color=(0, 255, 0),\nline_width=10,\nline_color=(255, 0, 0)\n)",
+    (
+        f"polygon(\npoints={[(int(x), int(y)) for x, y in pentagon]},\n"
+        f"fill_color=(0, 255, 0),\nline_width=10,\nline_color=(255, 0, 0)\n)"
+    ),
     20,
     640,
     font=font,
     font_size=font_size,
-    max_width=surface.get_width()/2,
+    max_width=surface.get_width() / 2,
 )
 
 # Draw an empty blue quadrilateral that touches all four sides of the
 # bottom-right quadrant
-quadrilateral = [("center", 450), (500, "center"), ("right", 600), (400, "bottom")]
+quadrilateral = [
+    ("center", 450),
+    (500, "center"),
+    ("right", 600),
+    (400, "bottom"),
+]
 surface.polygon(points=quadrilateral, fill=False, line_color=(0, 0, 255))
 surface.write(
-    'polygon(\npoints=[\n("center", 450), (500, "center"),\n("right", 600), (400, "bottom")],\nfill=False,\nline_color=(0, 0, 255)\n)',
-    surface.get_width()/2 + 70,
-    surface.get_height()/2 + 130,
+    (
+        'polygon(\npoints=[\n("center", 450), (500, "center"),\n'
+        '("right", 600), (400, "bottom")],\nfill=False,\n'
+        "line_color=(0, 0, 255)\n)"
+    ),
+    surface.get_width() / 2 + 70,
+    surface.get_height() / 2 + 130,
     font=font,
     font_size=font_size,
-    max_width=surface.get_width()/2,
+    max_width=surface.get_width() / 2,
 )
 
 # Write our drawing to a PNG file
