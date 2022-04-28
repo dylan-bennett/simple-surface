@@ -3,7 +3,7 @@
 import math
 import random
 
-from src.SimpleSurface import SimpleSurface
+from SimpleSurface import SimpleSurface
 
 font = "examples/fonts/arial.ttf"
 font_size = 16
