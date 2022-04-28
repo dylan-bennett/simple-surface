@@ -6,6 +6,7 @@ import cairo
 
 from .DrawSurface import DrawSurface
 from .TextSurface import TextSurface
+from .helpers import parse_x, parse_y
 
 
 class SimpleSurface:
@@ -229,16 +230,6 @@ class SimpleSurface:
             f"parameter 'scaling' cannot be '{scaling}', "
             "must be either 'absolute' or 'ratio'"
         )
-        if isinstance(x, str):
-            assert x in ["left", "center", "right"], (
-                f"parameter 'x' cannot be '{x}', must be either a number "
-                "or one of 'left', 'center', or 'right'"
-            )
-        if isinstance(y, str):
-            assert y in ["top", "center", "bottom"], (
-                f"parameter 'y' cannot be '{y}', must be either a number "
-                "or one of 'top', 'center', or 'bottom'"
-            )
 
         # Save the state of our Context so we can restore it at the end
         self.context.save()
@@ -278,20 +269,9 @@ class SimpleSurface:
             dest_width = scaling_width * origin.get_width()
             dest_height = scaling_height * origin.get_height()
 
-        # Convert the x and y coordinates, if need be
-        if x == "left":
-            x = 0
-        elif x == "center":
-            x = (self.get_width() - dest_width) / 2
-        elif x == "right":
-            x = self.get_width() - dest_width
-
-        if y == "top":
-            y = 0
-        elif y == "center":
-            y = (self.get_height() - dest_height) / 2
-        elif y == "bottom":
-            y = self.get_height() - dest_height
+        # Parse the x and y coordinates
+        x = parse_x(x, dest_width, self.get_width(), 0)
+        y = parse_y(y, dest_height, self.get_height(), 0)
 
         # Move to the right place
         self.context.translate(x, y)
