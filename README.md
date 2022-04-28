@@ -70,7 +70,7 @@ Optional arguments:
 ### crop
 `crop(x, y, width, height)`
 
-Crop the surface to a given width and height. The (x, y)-coordinates mark the top-left corner of the section to be cropped.
+Return a copy of the surface, cropped to a given width and height. The (x, y)-coordinates mark the top-left corner of the section to be cropped.
 
 Keyword arguments:
 * `x` -- the left side of the crop.

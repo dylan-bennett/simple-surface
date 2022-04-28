@@ -38,9 +38,9 @@ class SimpleSurface:
 
     def crop(self, x, y, width, height):
         """
-        Crop the surface to a given width and height. The
-        (x, y)-coordinates mark the top-left corner of the section to be
-        cropped.
+        Return a copy of the surface, cropped to a given width and
+        height. The (x, y)-coordinates mark the top-left corner of the
+        section to be cropped.
 
         Keyword arguments:
             x (int) -- the left side of the crop.
@@ -48,45 +48,15 @@ class SimpleSurface:
             width (int/float) -- the width of the crop.
             height (int/float) -- the height of the crop.
         """
-        # Make a new ImageSurface of the width and height given
-        cropped_surface = cairo.ImageSurface(
-            self.get_format(), int(width), int(height)
-        )
+        # Create a new SimpleSurface using the given width and height
+        cropped_surface = SimpleSurface(width, height, self.get_format())
 
-        # Create a Context for the cropped surface
-        cropped_context = cairo.Context(cropped_surface)
+        # Paste our SimpleSurface onto the new SimpleSurface,
+        # adjusted by the position given
+        cropped_surface.paste(self, -x, -y)
 
-        # Translate the Context back by the x, y amounts
-        cropped_context.translate(-x, -y)
-
-        # Set the source of the Context to be the source surface
-        cropped_context.set_source_surface(self.surface)
-
-        # Draw a rectangle of the width and height given,
-        # at the coordinates given
-        cropped_context.rectangle(x, y, width, height)
-
-        # Paint it onto the cropped surface
-        cropped_context.paint()
-
-        # Delete our old class attributes
-        del self.surface
-        del self.context
-        del self.text_surface
-        del self.draw_surface
-
-        # Set the cropped surface as our surface
-        self.surface = cropped_surface
-
-        # With the new ImageSurface object, we need to repoint our other
-        # attributes at it
-        self.context = cairo.Context(self.surface)
-        self.text_surface = TextSurface(self)
-        self.draw_surface = DrawSurface(self)
-
-        # Delete the cropped surface and its Context
-        del cropped_surface
-        del cropped_context
+        # Return the cropped version
+        return cropped_surface
 
     def dot(self, x, y, radius=1, **kwargs):
         """
