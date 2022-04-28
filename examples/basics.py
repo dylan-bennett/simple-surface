@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Examples of basic commands done using SimpleSurface."""
 import math
+import random
 
-from SimpleSurface import SimpleSurface
+from src.SimpleSurface import SimpleSurface
 
 font = "examples/fonts/arial.ttf"
 font_size = 16
@@ -58,24 +59,46 @@ surface2.write(
     font=font,
 )
 
-# Crop it
-surface2.crop(200, 200, 200, 200)
 
-# Paste the cropped version normally
-surface.paste(surface2, 50, y + font_size)
+# Set up some cropping parameters
+crop_width = 200
+crop_height = 200
+
+# Create a new cropped surface at a random position
+crop_x = random.randrange(surface2.get_width() - crop_width)
+crop_y = random.randrange(surface2.get_height() - crop_height)
+cropped_surface = surface2.crop(crop_x, crop_y, crop_width, crop_height)
+
+# Paste the cropped version with default parameters
+surface.paste(cropped_surface, 50, y + font_size)
+
+# Create a new cropped surface at a random position
+crop_x = random.randrange(surface2.get_width() - crop_width)
+crop_y = random.randrange(surface2.get_height() - crop_height)
+cropped_surface = surface2.crop(crop_x, crop_y, crop_width, crop_height)
 
 # Paste the cropped version scaled to a particular width and height
 # (plus gridlines)
-surface2.gridlines()
-surface.paste(surface2, 20, 515, width=267, height=135)
+cropped_surface.gridlines()
+surface.paste(cropped_surface, 20, 515, width=267, height=135)
+
+# Create a new cropped surface at a random position
+crop_x = random.randrange(surface2.get_width() - crop_width)
+crop_y = random.randrange(surface2.get_height() - crop_height)
+cropped_surface = surface2.crop(crop_x, crop_y, crop_width, crop_height)
 
 # Paste the cropped version rotated 45 degrees (plus an outline)
-surface2.outline(color=(0, 0, 255), width=5)
-surface.paste(surface2, 450, 250, rotate=math.pi / 4)
+cropped_surface.outline(color=(0, 0, 255), width=5)
+surface.paste(cropped_surface, 450, 250, rotate=math.pi / 4)
+
+# Create a new cropped surface at a random position
+crop_x = random.randrange(surface2.get_width() - crop_width)
+crop_y = random.randrange(surface2.get_height() - crop_height)
+cropped_surface = surface2.crop(crop_x, crop_y, crop_width, crop_height)
 
 # Paste the cropped version scaled by a factor of 0.5 and 1.5
 surface.paste(
-    surface2, "right", "bottom", scaling="ratio", width=0.5, height=1.5
+    cropped_surface, "right", "bottom", scaling="ratio", width=0.5, height=1.5
 )
 
 # Write out the width and height and format of this SimpleSurface
@@ -83,15 +106,15 @@ y = 660
 surface.write(
     (
         f"Info about the cropped SimpleSurface\n"
-        f"width={surface2.get_width()}\n"
-        f"height={surface2.get_height()}\n"
-        f"format={surface2.get_format()}"
+        f"width={cropped_surface.get_width()}\n"
+        f"height={cropped_surface.get_height()}\n"
+        f"format={repr(cropped_surface.get_format())}"
     ),
     10,
     y,
     font,
     max_height=surface.get_height() - y,
-    max_width=surface.get_width() - surface2.get_width() * 0.5 - 10,
+    max_width=surface.get_width() - cropped_surface.get_width() * 0.5 - 10,
 )
 
 # Save to PNG
