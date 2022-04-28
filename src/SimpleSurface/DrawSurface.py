@@ -10,6 +10,8 @@ import math
 
 import cairo
 
+from .helpers import parse_x, parse_y
+
 
 def polygon_wrapper(func):
     """
@@ -97,9 +99,22 @@ class DrawSurface:
         # bounding box, so we have to move the coordinates back to the
         # center of the dot.
         if isinstance(x, str):
-            x = self._parse_x(x, width) + width / 2
+            x = (
+                parse_x(
+                    x, width, self.calling_surface.get_width(), self.line_width
+                )
+                + width / 2
+            )
         if isinstance(y, str):
-            y = self._parse_y(y, height) + height / 2
+            y = (
+                parse_y(
+                    y,
+                    height,
+                    self.calling_surface.get_height(),
+                    self.line_width,
+                )
+                + height / 2
+            )
 
         # Draw the dot by moving to the center and drawing a circle with
         # the given radius, accounting for the width of the outline.
@@ -153,7 +168,14 @@ class DrawSurface:
         """See SimpleSurface.polygon()"""
         # Parse each set of points
         for i, (x, y) in enumerate(points):
-            points[i] = (self._parse_x(x, 0), self._parse_y(y, 0))
+            points[i] = (
+                parse_x(
+                    x, 0, self.calling_surface.get_width(), self.line_width
+                ),
+                parse_y(
+                    y, 0, self.calling_surface.get_height(), self.line_width
+                ),
+            )
 
         # Trace a line for each edge of the shape
         self.context.move_to(points[0][0], points[0][1])
@@ -218,8 +240,10 @@ class DrawSurface:
         height -= self.line_width
 
         # Parse the x- and y-coordinates
-        x = self._parse_x(x, width)
-        y = self._parse_y(y, height)
+        x = parse_x(x, width, self.calling_surface.get_width(), self.line_width)
+        y = parse_y(
+            y, height, self.calling_surface.get_height(), self.line_width
+        )
 
         # Return the adjusted x, y, width, and height
         return x, y, width, height
@@ -256,59 +280,3 @@ class DrawSurface:
         self.context.set_line_cap(self.line_cap)
         self.context.set_line_join(self.line_join)
         self.context.set_line_width(self.line_width)
-
-    def _parse_x(self, x, width=0):
-        """
-        Parse the x-coordinate.
-
-        Keyword arguments:
-            x (int/str) -- the x-coordinate to parse.
-            width (int) -- the width of the polygon (default 0).
-        """
-        # Make sure the coordinate is in the correct format
-        if isinstance(x, str):
-            assert x in ["left", "center", "right"], (
-                f"parameter 'x' cannot be '{x}', must be either a number "
-                "or one of 'left', 'center', or 'right'"
-            )
-
-        # Parse the x-coordinate, adjusting for any potential outline
-        if x == "left":
-            x = self.line_width / 2
-        elif x == "center":
-            x = (self.calling_surface.get_width() - width) / 2
-        elif x == "right":
-            x = self.calling_surface.get_width() - (width + self.line_width / 2)
-        else:
-            x += self.line_width / 2
-
-        return x
-
-    def _parse_y(self, y, height=0):
-        """
-        Parse the y-coordinate.
-
-        Keyword arguments:
-            y (int/str) -- the y-coordinate to parse.
-            height (int) -- the height of the polygon (default 0).
-        """
-        # Make sure the coordinate is in the correct format
-        if isinstance(y, str):
-            assert y in ["top", "center", "bottom"], (
-                f"parameter 'y' cannot be '{y}', must be either a number "
-                "or one of 'top', 'center', or 'bottom'"
-            )
-
-        # Parse the y-coordinate, adjusting for any potential outline
-        if y == "top":
-            y = self.line_width / 2
-        elif y == "center":
-            y = (self.calling_surface.get_height() - height) / 2
-        elif y == "bottom":
-            y = self.calling_surface.get_height() - (
-                height + self.line_width / 2
-            )
-        else:
-            y += self.line_width / 2
-
-        return y
