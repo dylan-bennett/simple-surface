@@ -7,12 +7,15 @@ def parse_x(x, origin_width, dest_width, outline_width=0):
     Keyword arguments:
         x (int/str) -- the x-coordinate to parse.
         origin_width (int) -- the width of the thing being positioned.
-        dest_width (int) -- the width of the surface onto which the thing is being positioned.
-        outline_width (int) -- the width of the thing's outline, if applicable (default 0).
+        dest_width (int) -- the width of the surface onto which the
+            thing is being positioned.
+        outline_width (int) -- the width of the thing's outline, if
+            applicable (default 0).
     """
     positions = ["left", "center", "right"]
 
-    # If the x-position is a string, make sure it's one of the values available
+    # If the x-position is a string,
+    # make sure it's one of the values available
     if isinstance(x, str):
         assert x in positions, (
             f"parameter 'x' cannot be '{x}', must be either a number "
@@ -41,12 +44,15 @@ def parse_y(y, origin_height, dest_height, outline_height=0):
     Keyword arguments:
         y (int/str) -- the y-coordinate to parse.
         origin_height (int) -- the height of the thing being positioned.
-        dest_height (int) -- the height of the surface onto which the thing is being positioned.
-        outline_height (int) -- the height of the thing's outline, if applicable (default 0).
+        dest_height (int) -- the height of the surface onto which the
+            thing is being positioned.
+        outline_height (int) -- the height of the thing's outline, if
+            applicable (default 0).
     """
     positions = ["top", "center", "bottom"]
 
-    # If the y-position is a string, make sure it's one of the values available
+    # If the y-position is a string,
+    # make sure it's one of the values available
     if isinstance(y, str):
         assert y in positions, (
             f"parameter 'y' cannot be '{y}', must be either a number "

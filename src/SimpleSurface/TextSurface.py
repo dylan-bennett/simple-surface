@@ -207,41 +207,6 @@ class TextSurface:
         # padding
         return exterior_dimensions
 
-    def _calculate_final_coordinates(self, x, y):
-        """
-        Return the final (x, y)-coordinates of the text on the calling
-        surface.
-
-        Keyword arguments:
-            x (float/str) -- the x-coordinate of the text. It can either
-                be a number, or one of "left", "center", "right".
-            y (float/str) -- the y-coordinate of the text. It can either
-                be a number, or one of "top", "center", "bottom".
-        """
-        # Grab the dimensions for easier code readability
-        calling_width = self.calling_surface.get_width()
-        calling_height = self.calling_surface.get_height()
-        exterior_width = self.exterior_extended_surface.get_width()
-        exterior_height = self.exterior_extended_surface.get_height()
-
-        # Convert the x-coordinate if it was sent in as a string
-        if x == "left":
-            x = 0
-        elif x == "center":
-            x = (calling_width - exterior_width) / 2
-        elif x == "right":
-            x = calling_width - exterior_width
-
-        # Convert the y-coordinate if it was sent in as a string
-        if y == "top":
-            y = 0
-        elif y == "center":
-            y = (calling_height - exterior_height) / 2
-        elif y == "bottom":
-            y = calling_height - exterior_height
-
-        return x, y
-
     def _calculate_max_font_size(self, text):
         """
         Return the largest font size the text can be.
