@@ -25,6 +25,8 @@ import ctypes as ct
 
 import cairo
 
+from .helpers import parse_x, parse_y
+
 
 class TextSurface:
     """Write a block of text according to provided attributes."""
@@ -99,18 +101,6 @@ class TextSurface:
 
     def write(self, text, x, y, font, **kwargs):
         """See SimpleSurface.write()"""
-        # Make sure the (x, y)-coordinates are sent in properly
-        if isinstance(x, str):
-            assert x in ["left", "center", "right"], (
-                f"parameter 'x' cannot be '{x}', must be either a number "
-                "or one of 'left', 'center', or 'right'"
-            )
-        if isinstance(y, str):
-            assert y in ["top", "center", "bottom"], (
-                f"parameter 'y' cannot be '{y}', must be either a number "
-                "or one of 'top', 'center', or 'bottom'"
-            )
-
         # Set the font path
         self.font = font
 
@@ -185,8 +175,19 @@ class TextSurface:
             self.padding["top"],
         )
 
-        # Make sure the x and y coordinates are set to actual numbers
-        x, y = self._calculate_final_coordinates(x, y)
+        # Parse the x and y coordinates
+        x = parse_x(
+            x,
+            self.exterior_extended_surface.get_width(),
+            self.calling_surface.get_width(),
+            0,
+        )
+        y = parse_y(
+            y,
+            self.exterior_extended_surface.get_height(),
+            self.calling_surface.get_height(),
+            0,
+        )
 
         # Paste the exterior surface to the calling surface
         self.calling_surface.paste(self.exterior_extended_surface, x, y)
