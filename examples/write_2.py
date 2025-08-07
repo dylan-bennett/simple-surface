@@ -112,4 +112,4 @@ bb_width, bb_height = surface.write(
 surface.rectangle(x, y, bb_width, bb_height, fill=False)
 
 # Write our drawing to a PNG file
-surface.write_to_png("example_write_2.png")
+surface.write_to_png("write_2.png")

@@ -52,7 +52,7 @@ surface.write(
 surface.write(
     (
         'ellipse("center", "center", 250, 250,\nfill_color=(50, 205, 50, 128), '
-        "line_color=(255, 0, 0))\n"
+        "line_color=(255, 0, 0))\n\n"
         "(The RGBA fill_color makes this one see-through!)"
     ),
     "center",
@@ -96,9 +96,9 @@ surface.ellipse(
 )
 a, b = surface.write(
     (
-        'ellipse(\nx="left",\ny="bottom",\nwidth=surface.get_width() / 4,\n'
-        "height=surface.get_height() / 4,\nfill_color=(255, 192, 203),\n"
-        "line_width=10,\nline_color=(128, 0, 128),\n)"
+        'ellipse(\n\tx="left",\n\ty="bottom",\n\twidth=surface.get_width() / 4,'
+        "\n\theight=surface.get_height() / 4,\n\tfill_color=(255, 192, 203),"
+        "\n\tline_width=10,\n\tline_color=(128, 0, 128),\n)"
     ),
     surface.get_width() / 4 + 20,
     "bottom",
@@ -107,4 +107,4 @@ a, b = surface.write(
 )
 
 # Write our drawing to a PNG file
-surface.write_to_png("example_ellipse.png")
+surface.write_to_png("ellipse.png")

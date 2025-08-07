@@ -92,8 +92,8 @@ surface.write(
     (
         'line("center", "center", "right", "bottom")\n'
         'line("center", "bottom", "right", "center")\n'
-        "rectangle(\nsurface.get_width() / 2,\nsurface.get_height() / 2,\n"
-        "surface.get_width() / 2,\nsurface.get_height() / 2,\nfill=False\n)"
+        "rectangle(\n\tsurface.get_width() / 2,\n\tsurface.get_height() / 2,"
+        "\n\tsurface.get_width() / 2,\n\tsurface.get_height() / 2,\n\tfill=False\n)"
     ),
     "left",
     "bottom",
@@ -105,4 +105,4 @@ surface.write(
 )
 
 # Write our drawing to a PNG file
-surface.write_to_png("example_line.png")
+surface.write_to_png("line.png")

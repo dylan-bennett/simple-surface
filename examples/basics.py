@@ -21,9 +21,9 @@ title_width, title_height = surface.write(
 y = title_height + 10
 _, text_height = surface.write(
     (
-        "Welcome to SimpleSurface! This package is an attempt to complement "
-        "Pycairo's functionality by performing a lot of the heavy lifting "
-        "needed for non-native functionality.\n\n"
+        "Welcome to SimpleSurface! This package is designed to enhance Pycairo"
+        " by handling much of the extra work required for features not "
+        "natively supported.\n\n"
         "In this example there are common tasks showcased, namely cropping "
         "and pasting a Surface, as well as additional functions like outlining "
         "a SimpleSurface, drawing gridlines, and retrieving metadata.\n\n"
@@ -72,9 +72,7 @@ cropped_surface = surface2.crop(crop_x, crop_y, crop_width, crop_height)
 # Paste the cropped version with default parameters
 surface.paste(cropped_surface, 50, y + font_size)
 
-# Create a new cropped surface at a random position
-crop_x = random.randrange(surface2.get_width() - crop_width)
-crop_y = random.randrange(surface2.get_height() - crop_height)
+# Re-crop the surface to get a clean slate
 cropped_surface = surface2.crop(crop_x, crop_y, crop_width, crop_height)
 
 # Paste the cropped version scaled to a particular width and height
@@ -82,18 +80,14 @@ cropped_surface = surface2.crop(crop_x, crop_y, crop_width, crop_height)
 cropped_surface.gridlines()
 surface.paste(cropped_surface, 20, 515, width=267, height=135)
 
-# Create a new cropped surface at a random position
-crop_x = random.randrange(surface2.get_width() - crop_width)
-crop_y = random.randrange(surface2.get_height() - crop_height)
+# Re-crop the surface to get a clean slate
 cropped_surface = surface2.crop(crop_x, crop_y, crop_width, crop_height)
 
 # Paste the cropped version rotated 45 degrees (plus an outline)
 cropped_surface.outline(color=(0, 0, 255), width=5)
 surface.paste(cropped_surface, 450, 250, rotate=math.pi / 4)
 
-# Create a new cropped surface at a random position
-crop_x = random.randrange(surface2.get_width() - crop_width)
-crop_y = random.randrange(surface2.get_height() - crop_height)
+# Re-crop the surface to get a clean slate
 cropped_surface = surface2.crop(crop_x, crop_y, crop_width, crop_height)
 
 # Paste the cropped version scaled by a factor of 0.5 and 1.5
@@ -118,7 +112,4 @@ surface.write(
 )
 
 # Save to PNG
-surface.write_to_png("example_basics.png")
-
-# Save to PDF
-surface.write_to_png("example_basics.pdf")
+surface.write_to_png("basics.png")

@@ -5,8 +5,8 @@ cleaner vector drawing, text writing, and image manipulation.
 import cairo
 
 from .DrawSurface import DrawSurface
-from .TextSurface import TextSurface
 from .helpers import parse_x, parse_y
+from .TextSurface import TextSurface
 
 
 class SimpleSurface:

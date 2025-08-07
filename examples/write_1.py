@@ -28,4 +28,4 @@ surface.write(
 )
 
 # Write our drawing to a PNG file
-surface.write_to_png("example_write_1.png")
+surface.write_to_png("write_1.png")

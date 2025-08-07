@@ -117,4 +117,4 @@ surface.write(
 )
 
 # Write our drawing to a PNG file
-surface.write_to_png("example_polygon.png")
+surface.write_to_png("polygon.png")

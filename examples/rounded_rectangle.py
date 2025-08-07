@@ -116,4 +116,4 @@ a, b = surface.write(
 )
 
 # Write our drawing to a PNG file
-surface.write_to_png("example_rounded_rectangle.png")
+surface.write_to_png("rounded_rectangle.png")

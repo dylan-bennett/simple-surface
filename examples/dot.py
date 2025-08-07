@@ -96,8 +96,8 @@ surface.dot(
 )
 a, b = surface.write(
     (
-        'dot(\nx="left",\ny="bottom",\nradius=100,\nfill_color=(255, 192, 203),'
-        "\nline_width=20,\nline_color=(128, 0, 128),\n)"
+        'dot(\n\tx="left",\n\ty="bottom",\n\tradius=100,\n\tfill_color=(255, 192, 203),'
+        "\n\tline_width=20,\n\tline_color=(128, 0, 128),\n)"
     ),
     "center",
     "bottom",
@@ -107,4 +107,4 @@ a, b = surface.write(
 )
 
 # Write our drawing to a PNG file
-surface.write_to_png("example_dot.png")
+surface.write_to_png("dot.png")

@@ -111,4 +111,4 @@ _, text_height = surface.write(
 )
 
 # Write our drawing to a PNG file
-surface.write_to_png("example_write_0.png")
+surface.write_to_png("write_0.png")
