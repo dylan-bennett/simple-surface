@@ -1,6 +1,7 @@
 __pycache__/
 dist/
-env-*/
+env/
 *.egg-info/
 pyproject.toml
 setup.cfg
+release.sh
